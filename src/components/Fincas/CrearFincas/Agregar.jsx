@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../Fincas/agregar.module.css"; 
+import styles from "./agregar.module.css"; 
 
 const Agregar = () => {
   const [formData, setFormData] = useState({
