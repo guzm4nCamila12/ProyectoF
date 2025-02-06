@@ -21,32 +21,24 @@ const Agregar = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Agregar finca</h2>
+      <h3 className={styles.title}>AGREGAR FINCA</h3>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
-          <label className={styles.label}>Nombre</label>
+          <label className={styles.label}>Ingrese su nombre:</label>
           <input
             type="text"
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
             className={styles.input}
-            placeholder="Escribe su nombre"
+            placeholder="Nombre"
             required
           />
         </div>
 
         <div>
-          <label className={styles.label}>Ubicacion</label>
-          <input
-            type="text"
-            name="ubicacion"
-            value={formData.ubicacion}
-            onChange={handleChange}
-            className={styles.input}
-            placeholder="Escribe su ubicacion"
-            required
-          />
+          <h2> Ubique su ubicación aquí </h2>
+          <h1><i class="bi bi-geo-alt"></i></h1>
         </div>
 
         <button type="submit" className={styles.button}>

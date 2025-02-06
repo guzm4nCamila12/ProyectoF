@@ -3,8 +3,8 @@ import styles from "../Sensores/agregar.module.css";
 
 const Agregar = () => {
   const [formData, setFormData] = useState({
-    tipo: "",
-    ubicacion: "",
+    nombre: "",
+    descripción: "",
   });
 
   const handleChange = (e) => {
@@ -21,30 +21,30 @@ const Agregar = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Agregar sensor</h2>
+      <h2 className={styles.title}>AGREGAR SENSOR</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
-          <label className={styles.label}>Tipo</label>
+          <label className={styles.label}>Ingrese su nombre:</label>
           <input
             type="text"
-            name="tipo"
-            value={formData.tipo}
+            name="nombre"
+            value={formData.nombre}
             onChange={handleChange}
             className={styles.input}
-            placeholder="Escribe su tipo"
+            placeholder="Nombre"
             required
           />
         </div>
 
         <div>
-          <label className={styles.label}>Ubicacion</label>
+          <label className={styles.label}>Ingrese una descripción:</label>
           <input
             type="text"
-            name="ubicacion"
-            value={formData.ubicacion}
+            name="descripcion"
+            value={formData.descripcion}
             onChange={handleChange}
             className={styles.input}
-            placeholder="Escribe su ubicacion"
+            placeholder="Descripcion"
             required
           />
         </div>
