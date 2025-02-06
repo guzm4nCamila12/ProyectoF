@@ -8,6 +8,9 @@ import EditarSensor from "./components/Sensores/Editar"
 import AgregarFinca from "./components/Fincas/CrearFincas/Agregar"
 import VerFincas from "./components/Fincas/VerFincas/VerFincas"
 import InicioAdmin from './components/VistAdmin/inicio/inicio';
+import ActivarSensores from './components/VistAdmin/activarSensores';
+import GraficoSensor from './components/Sensores/GraficoSensor/GraficoSensor';
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,6 +25,9 @@ function App() {
         <Route path="/agregar-finca" element={<AgregarFinca/>}/>
         <Route path="/ver-fincas" element={<VerFincas/>}/>
         <Route path="/inicio-admin" element={<InicioAdmin/>}/>
+        <Route path="/sensores-admin" element={<ActivarSensores/>}/>
+        <Route path='/sensores-grafica' element={<GraficoSensor />}/>
+
       </Routes>
     </Router>
   )
