@@ -3,22 +3,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
+import { data, Link, useNavigate } from 'react-router-dom';
 
-
+  
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
-  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", contrasena: "" });
-  const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", contrasena: ""});
+  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: ""});
 
   const navigate = useNavigate();
 
   // DATOS DE PRUEBA
   useEffect(() => {
-    setUsuarios([
-      { id: 1, nombre: "DON FABIO NARANJO", telefono: "3104073012", correo: "FABIOLANARANJO@GMAIL.COM", contrasena: "holaMundo123" },
-      { id: 2, nombre: "DON DUVA ESTEBAN ", telefono: "3006343044", correo: "MENDEZSICARYO@GMAIL.COM", contrasena: "holaMundo123" }
-    ]);
+    let endpoint = "http://localhost:3000/usuarios";
+
+    fetch(endpoint)
+      .then(response => {
+        
+        return response.json();  
+      })
+      .then(data => {
+        setUsuarios(data)
+      })
+      .catch(error => {
+        console.error('Error:', error);  
+      });
   }, []);
 
   // Manejo de cambios en los formularios
@@ -26,26 +35,99 @@ const Inicio = () => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
-  const handleChangeEditar = (e) => {
-    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
-  };
+
+
 
   // INSERTAR USUARIO
-  const handleInsertar = (e) => {
+  const handleInsertar = async (e) => {
     e.preventDefault();
-    const nuevo = { id: usuarios.length + 1, ...nuevoUsuario };
-    setUsuarios([...usuarios, nuevo]);
-    setNuevoUsuario({ nombre: "", telefono: "", correo: "" });
-  };
+
+    const nuevo = { 
+        nombre: nuevoUsuario.nombre, 
+        telefono: nuevoUsuario.telefono, 
+        correo: nuevoUsuario.correo, 
+        clave: nuevoUsuario.clave, 
+        id_rol: Number(nuevoUsuario.id_rol) 
+    };
+
+    let configuracion = {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(nuevo)
+    };
+    console.log(nuevo)
+
+    try {
+        const response = await fetch("http://localhost:3000/usuarios", configuracion);
+        const data = await response.json();
+
+        if (response.ok) {
+            setUsuarios([...usuarios, data]); // Solo actualiza si la respuesta es exitosa
+            setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+            console.log("Usuario creado:", data);
+        } else {
+            console.error("Error en la respuesta del servidor:", data);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
+};
+
 
   // EDITAR USUARIO
-  const handleEditar = (e) => {
+  const handleEditar = async (e) => {
     e.preventDefault();
-    setUsuarios(usuarios.map(usuario => (usuario.id === editarUsuario.id ? editarUsuario : usuario)));
-  };
+
+    try {
+        let configuracion = {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editarUsuario)
+        };
+
+        const response = await fetch(`http://localhost:3000/usuarios/${editarUsuario.id}`, configuracion);
+
+        if (!response.ok) {
+            console.error("Error en la respuesta del servidor:", response.statusText);
+            alert("ERROR al actualizar el usuario");
+            return;
+        }
+
+        let data = null;
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+        }
+
+        setUsuarios(usuarios.map(usuario => (usuario.id === editarUsuario.id ? (data || editarUsuario) : usuario)));
+        console.log("Usuario actualizado:", data || editarUsuario);
+
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("ERROR en la conexión con el servidor");
+    }
+};
+
+
+const handleChangeEditar = (e) => {
+    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
+
+};
+
+
+
+
 
   //CARGAR DATOS EN MODAL DE EDICION
   const cargarDatosEdicion = (usuario) => {
+    console.log(usuario)
     setEditarUsuario(usuario);
   };
 
@@ -71,18 +153,31 @@ const Inicio = () => {
   }).then((result) => {
     if(result.isConfirmed){
         console.log(id)
-        const nuevoMap = new Map(usuarios);
-        console.log(nuevoMap)
-        nuevoMap.delete(id);
-        setUsuarios(nuevoMap);
+
+        try{
+          let configuracion = {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+            }
+        };
+
+          fetch(`http://localhost:3000/usuarios/${id}`, configuracion)
+          .then(data =>{
+            console.log(data)
+          })
+
+        }catch{
+
+        }
     }
   })
   }
 
 
-  const extraerPersonas = () =>{
-    let endpoint = "http://localhost:3000/usuarios"
-  }
+
+  
+
 
   return (
     <div className="container mt-4">
@@ -107,7 +202,7 @@ const Inicio = () => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.telefono}</td>
                 <td>{usuario.correo}</td>
-                <td>{usuario.contrasena}</td>
+                <td>{usuario.clave}</td>
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"
@@ -120,8 +215,7 @@ const Inicio = () => {
 
                   <button
                     className="btn btn-danger btn-sm m-2"
-                    data-bs-toggle="modal"
-                    onClick={() => eliminarUsuario(index + 1)}
+                    onClick={() => eliminarUsuario(usuario.id)}
                   >
                     Eliminar
                   </button>
@@ -131,7 +225,7 @@ const Inicio = () => {
                     className="btn btn-primary btn-sm m-1"
                     data-bs-toggle="modal"
                   >
-                      <i class="bi bi-eye-fill"></i>
+                      <i className="bi bi-eye-fill"></i>
                   </button>
                   </Link>
                 </td>
@@ -169,8 +263,11 @@ const Inicio = () => {
                 <label className="form-label">CORREO</label>
                 <input className="form-control" type="text" name="correo" value={nuevoUsuario.correo} onChange={handleChange} required />
 
-                <label className="form-label">CONTRASEÑA</label>
-                <input className="form-control" type="text" name="contrasena" value={nuevoUsuario.contrasena} onChange={handleChange} required />
+                <label className="form-label">CLAVE</label>
+                <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
+
+                <label className="form-label">ID ROL</label>
+                <input className="form-control" type="text" name="id_rol" value={nuevoUsuario.id_rol} onChange={handleChange} required />
 
 
                 <div className="mt-3">
@@ -205,8 +302,8 @@ const Inicio = () => {
                 <label className="form-label">CORREO</label>
                 <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} required />
 
-                <label className="form-label">CONTRASEÑA</label>
-                <input className="form-control" type="text" name="contrasena" value={editarUsuario.contrasena} onChange={handleChangeEditar} required />
+                <label className="form-label">CLAVE</label>
+                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} required />
 
 
                 <div className="mt-3">
