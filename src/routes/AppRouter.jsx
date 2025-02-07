@@ -8,7 +8,7 @@ import AgregarSensor from "../pages/Admin/Sensores/AgregarSensor/Agregar"
 import EditarSensor from "../pages/Admin/Sensores/EditarSensor/Editar"
 import AgregarFinca from "../pages/Admin/Finca/CrearFincas/Agregar"
 
-import InicioAdmin from '../pages/SuperAdmin/Inicio/inicio';
+import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio';
 import Registro from '../pages/Admin/Registrar/Registro';
 import EditarFinca from '../pages/Admin/Finca/EditarFinca/editar'
 import MenuAlterno from '../pages/VistAlterno/Menu/Menu';
