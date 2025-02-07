@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from '../EditarFinca.jsx/editar.module.css' 
+import styles from '../EditarFinca/editar.module.css' 
 
 export default function editar() {
   const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../Sensores/agregar.module.css"; 
+import styles from "../AgregarSensor/agregar.module.css"; 
 
 const Agregar = () => {
   const [formData, setFormData] = useState({
