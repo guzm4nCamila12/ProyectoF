@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Importación de React y useState para manejo de estado
 import styles from "../AgregarSensor/agregar.module.css"; 
 
 const Agregar = () => {
+  // Definición del estado inicial del formulario (nombre y descripción)
   const [formData, setFormData] = useState({
     nombre: "",
     descripción: "",
   });
 
+  // Maneja los cambios de los campos del formulario
   const handleChange = (e) => {
+    // Se actualiza el estado del formulario con el valor correspondiente
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+      ...formData, // Se preservan los valores actuales de formData
+      [e.target.name]: e.target.value, // Se actualiza el campo que cambia
     });
   };
 
+  // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Datos enviados:", formData);
@@ -27,9 +31,9 @@ const Agregar = () => {
           <label className={styles.label}>Ingrese su nombre:</label>
           <input
             type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
+            name="nombre" // (para la gestión de su valor en el estado)
+            value={formData.nombre} // Valor del input, vinculado con el estado
+            onChange={handleChange} // Llama a la función que actualiza el estado cuando cambia el valor
             className={styles.input}
             placeholder="Nombre"
             required

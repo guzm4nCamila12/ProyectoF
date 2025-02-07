@@ -1,22 +1,22 @@
 import React from 'react';
 
-//LIBRERIA PARA GRAFICAS
+//Libreria para gráficas
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
-// REGISTRA LOS COMPONENTES NECESARIOS PARA LA GRAFICA
+// Registra los componentes necesarios para la grafica
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const LineChart = () => {
-  // DATOS DEL GRAFICO
+  // Datos del grafico
   const data = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],  //EN QUE TIEMPOS LO QUEREMOS
     datasets: [
       {
-        label: 'Calor',  // NOMBRE DE LA LINEA
-        data: [12, 19, 3, 5, 2, 3],  // DATOS TRAIDOS DEL SENSOR
-        borderColor: 'rgba(75, 192, 192, 1)',  //COLOR DE LA LINEA
-        tension: 0.1,  // CURVATURA DE LINEA
+        label: 'Calor',  // Nombre de la linea
+        data: [12, 19, 3, 5, 2, 3],  // Datos traidos del sensor
+        borderColor: 'rgba(75, 192, 192, 1)',  //Color de la linea
+        tension: 0.1,  // Curvatura de linea
       },
       {
         label: 'ph',  
@@ -27,7 +27,7 @@ const LineChart = () => {
     ],
   };
 
-  // VISTAS DEL GRAFICO
+  // Vistas del grafico
   const options = {
     responsive: true,
     plugins: {
