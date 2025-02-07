@@ -79,6 +79,11 @@ const Inicio = () => {
   })
   }
 
+
+  const extraerPersonas = () =>{
+    let endpoint = "http://localhost:3000/usuarios"
+  }
+
   return (
     <div className="container mt-4">
       <h1 className="text-center">USUARIOS REGISTRADOS</h1>
