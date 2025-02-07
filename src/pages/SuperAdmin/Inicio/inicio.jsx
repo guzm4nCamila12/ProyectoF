@@ -79,7 +79,7 @@ const Inicio = () => {
 
   // EDITAR USUARIO
   const handleEditar = async (e) => {
-    e.preventDefault();
+
 
     try {
         let configuracion = {
@@ -91,23 +91,14 @@ const Inicio = () => {
             body: JSON.stringify(editarUsuario)
         };
 
-        const response = await fetch(`http://localhost:3000/usuarios/${editarUsuario.id}`, configuracion);
 
-        if (!response.ok) {
-            console.error("Error en la respuesta del servidor:", response.statusText);
-            alert("ERROR al actualizar el usuario");
-            return;
-        }
+        fetch(`http://localhost:3000/usuarios/${editarUsuario.id}`, configuracion)
+        .then(data =>{
+          console.log(data)
+        })
+        
 
-        let data = null;
-        const contentType = response.headers.get("Content-Type");
-
-        if (contentType && contentType.includes("application/json")) {
-            data = await response.json();
-        }
-
-        setUsuarios(usuarios.map(usuario => (usuario.id === editarUsuario.id ? (data || editarUsuario) : usuario)));
-        console.log("Usuario actualizado:", data || editarUsuario);
+    
 
     } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -220,14 +211,12 @@ const handleChangeEditar = (e) => {
                     Eliminar
                   </button>
 
-                  <Link to={`/login`}>
-                  <button
-                    className="btn btn-primary btn-sm m-1"
-                    data-bs-toggle="modal"
-                  >
+                  <Link to={`/lista-fincas/${usuario.id}`}>
+                    <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
-                  </button>
+                    </button>
                   </Link>
+
                 </td>
               </tr>
             ))
@@ -308,7 +297,7 @@ const handleChangeEditar = (e) => {
 
                 <div className="mt-3">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                  <button type="submit" className="btn btn-primary ms-2">EDITAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">EDITAR</button>
                 </div>
               </form>
             </div>
