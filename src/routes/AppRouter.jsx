@@ -14,7 +14,7 @@ import EditarFinca from './pages/Fincas/EditarFinca.jsx/editar'
 import MenuAlterno from './pages/VistAlterno/Menu/Menu';
 
 import ActivarSensores from './pages/VistAdmin/activarSensores';
-import GraficoSensor from './pages/Sensores/GraficoSensor/GraficoSensor';
+// import GraficoSensor from './pages/Sensores/GraficoSensor/GraficoSensor';
 
 
 
@@ -37,7 +37,7 @@ function App() {
         <Route path='/menu-alterno' element={<MenuAlterno/>}/>
 
         <Route path="/sensores-admin" element={<ActivarSensores/>}/>
-        <Route path='/sensores-grafica' element={<GraficoSensor />}/>
+        {/* <Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
 
       </Routes>
