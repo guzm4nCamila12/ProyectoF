@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from '../Registrar/registro.module.css'
+import styles from './registro.module.css'
 
 export default function Registro() {
   const [formData, setFormData] = useState({
