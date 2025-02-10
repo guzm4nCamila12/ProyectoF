@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from "react-router"
+import { getUsuarioById } from '../../../services/Usuarios/ApiUsuarios';
+import { getFincasById } from '../../../services/Fincas/ApiFincas';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -10,26 +12,20 @@ export default function ListaFincas() {
 
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
-
-    fetch(`http://localhost:3000/usuarios/${id}`)
-    .then(response => response.json())
-    .then(data => {
-
-      setUsuario(Usuario, data)
-      console.log(Usuario)
-    })
-
-
-    setFincas([
-      { nombre: "Finca Las Lomas" },
-      { nombre: "Finca Los Olivos" }
-    ]);
+    getUsuarioById(id)
+        .then(data => setUsuario(data))
+        .catch(error => console.error('Error: ',error))
+    
+    getFincasById(id)
+    .then(data => setFincas(data))
+    
+    
   }, []);
 
   return (
     <div>
       <div className="container mt-4">
-        <h1 className="text-center">{id}</h1>
+        <h1 className="text-center">{Usuario.nombre}</h1>
         
         <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
@@ -41,7 +37,7 @@ export default function ListaFincas() {
           </thead>
           <tbody>
             {/* Si hay fincas, las mostramos; de lo contrario, mostramos un mensaje de que no hay datos */}
-            {fincas.length > 0 ? (
+            {Array.isArray(fincas) && fincas.length > 0 ? (
               fincas.map((finca, index) => (
                 <tr key={index}>
                   <td className='fs-4'>{finca.nombre}</td>
@@ -51,7 +47,7 @@ export default function ListaFincas() {
                     </button>
                   </td>
                   <td>
-                    <Link to={"/sensores-SuperAdmin"}>
+                    <Link to={`/sensores-SuperAdmin/${finca.id}`}>
                       <button type="button" className="btn btn-primary">
                         <i className="bi bi-app-indicator"></i>
                       </button>
