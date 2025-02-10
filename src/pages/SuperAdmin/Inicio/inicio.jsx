@@ -3,31 +3,29 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
-import { data, Link, useNavigate } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
+import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Api";
+import { acctionSucessful } from "../../../components/alertSuccesful";
 
   
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: ""});
-
-  const navigate = useNavigate();
+  
+  
+ 
+  
 
   // DATOS DE PRUEBA
   useEffect(() => {
-    let endpoint = "http://localhost:3000/usuarios";
 
-    fetch(endpoint)
-      .then(response => {
-        
-        return response.json();  
-      })
-      .then(data => {
-        setUsuarios(data)
-      })
-      .catch(error => {
-        console.error('Error:', error);  
-      });
+    getUsuarios()
+    .then(data => setUsuarios(data))
+    .catch(error => console.error('Error: ',error))
+
+
+    
   }, []);
 
   // Manejo de cambios en los formularios
@@ -40,8 +38,8 @@ const Inicio = () => {
 
   // INSERTAR USUARIO
   const handleInsertar = async (e) => {
-    e.preventDefault();
 
+    e.preventDefault();
     const nuevo = { 
         nombre: nuevoUsuario.nombre, 
         telefono: nuevoUsuario.telefono, 
@@ -49,63 +47,46 @@ const Inicio = () => {
         clave: nuevoUsuario.clave, 
         id_rol: Number(nuevoUsuario.id_rol) 
     };
-
-    let configuracion = {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(nuevo)
-    };
-    console.log(nuevo)
-
     try {
-        const response = await fetch("http://localhost:3000/usuarios", configuracion);
-        const data = await response.json();
+      const data = await insertarUsuario(
+        nuevo
+      );
+      if (data) {
+        setUsuarios([...usuarios, data]);
+        setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
-        if (response.ok) {
-            setUsuarios([...usuarios, data]); // Solo actualiza si la respuesta es exitosa
-            setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-            console.log("Usuario creado:", data);
-        } else {
-            console.error("Error en la respuesta del servidor:", data);
-        }
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Usuario agregado correctamete"
+        });
+
+      }
     } catch (error) {
-        console.error("Error en la solicitud:", error);
+      console.error("Error en la solicitud:", error);
     }
+  
+
 };
 
 
   // EDITAR USUARIO
   const handleEditar = async (e) => {
+    e.preventDefault();
+    try{
+      actualizarUsuario(editarUsuario.id,editarUsuario)
+      setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Usuario editado correctamete"
+      });
 
-
-    try {
-        let configuracion = {
-            method: "PUT",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(editarUsuario)
-        };
-
-
-        fetch(`http://localhost:3000/usuarios/${editarUsuario.id}`, configuracion)
-        .then(data =>{
-          console.log(data)
-        })
-        
-
-    
-
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert("ERROR en la conexión con el servidor");
+    }catch(error){
+      console.error(error)
     }
-};
 
+
+
+};
 
 const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
@@ -118,7 +99,6 @@ const handleChangeEditar = (e) => {
 
   //CARGAR DATOS EN MODAL DE EDICION
   const cargarDatosEdicion = (usuario) => {
-    console.log(usuario)
     setEditarUsuario(usuario);
   };
 
@@ -131,7 +111,7 @@ const handleChangeEditar = (e) => {
   }
 
   //ELIMINAR UN SUSUARIO
-  const eliminarUsuario = (id) =>{
+  const HandlEliminarUsuario = (id) =>{
     Swal.fire({
       icon: 'error',
       title: '¿Estas seguro?',
@@ -143,23 +123,18 @@ const handleChangeEditar = (e) => {
       cancelButtonText: "cancelar "
   }).then((result) => {
     if(result.isConfirmed){
-        console.log(id)
 
         try{
-          let configuracion = {
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json",
-            }
-        };
-
-          fetch(`http://localhost:3000/usuarios/${id}`, configuracion)
-          .then(data =>{
-            console.log(data)
-          })
+          eliminarUsuario(id)
+          setUsuarios(usuarios.filter(usuario => usuario.id !== id));
+          acctionSucessful.fire({
+            icon: "success",
+            title: "Usuario eliminado correctamete"
+          });
+          
 
         }catch{
-
+          console.error("Error eliminando usuario:", error);
         }
     }
   })
@@ -206,7 +181,7 @@ const handleChangeEditar = (e) => {
 
                   <button
                     className="btn btn-danger btn-sm m-2"
-                    onClick={() => eliminarUsuario(usuario.id)}
+                    onClick={() => HandlEliminarUsuario(usuario.id)}
                   >
                     Eliminar
                   </button>
@@ -261,7 +236,7 @@ const handleChangeEditar = (e) => {
 
                 <div className="mt-3">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                  <button type="submit" className="btn btn-primary ms-2">INSERTAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">INSERTAR</button>
                 </div>
               </form>
             </div>
