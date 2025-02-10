@@ -14,7 +14,7 @@ import EditarFinca from '../pages/Admin/Finca/EditarFinca/editar'
 import MenuAlterno from '../pages/VistAlterno/Menu/Menu';
 import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
- import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
+import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
 
 
@@ -43,7 +43,8 @@ function App() {
         <Route path="/sensores-admin" element={<ActivarSensores/>}/>
         <Route path='/sensores-grafica' element={<GraficoSensor />}/> 
 
-        <Route path='/lista-fincas' element={<ListaFincas />}/>
+        <Route path="/lista-fincas/:id" element={<ListaFincas />} />
+
 
 
       </Routes>

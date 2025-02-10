@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useParams } from "react-router"
 
 export default function ListaFincas() {
+  const { id } = useParams();
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
+  const [Usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
+
+    fetch(`http://localhost:3000/usuarios/${id}`)
+    .then(response => response.json())
+    .then(data => {
+
+      setUsuario(Usuario, data)
+      console.log(Usuario)
+    })
+
+
     setFincas([
       { nombre: "Finca Las Lomas" },
       { nombre: "Finca Los Olivos" }
@@ -16,7 +29,7 @@ export default function ListaFincas() {
   return (
     <div>
       <div className="container mt-4">
-        <h1 className="text-center">(nombre usuario)</h1>
+        <h1 className="text-center">{id}</h1>
         
         <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
