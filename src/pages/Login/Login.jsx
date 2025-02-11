@@ -1,16 +1,28 @@
 import React, { useState } from "react";  // Importación de React y useState para manejar el estado
 import styles from "./login.module.css";  
+import { login } from "../../services/Usuarios/ApiUsuarios";
 
 const Login = () => {
   // Estado para almacenar el valor del correo electrónico y la contraseña
-  const [email, setEmail] = useState("");  // Estado para el correo electrónico
-  const [password, setPassword] = useState("");  // Estado para la contraseña
+  const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
+  const [clave, setClave] = useState("");  // Estado para la contraseña
 
   // Función que maneja el envío del formulario de inicio de sesión
-  const handleSubmit = (e) => {
-    e.preventDefault();  
-    console.log("Email:", email, "Password:", password); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const inicioUsuario = { telefono, clave };
+  
+    try {
+      const data = await login(inicioUsuario);
+      if(data){
+        
+      }
+    } catch (error) {
+      console.error("Error en el inicio de sesión:", error);
+    }
   };
+
 
   return (
     <div className={styles.container}> 
@@ -19,10 +31,10 @@ const Login = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         
         <input
-          type="email"
-          placeholder="Correo electrónico" 
-          value={email}  // El valor del input está vinculado al estado email
-          onChange={(e) => setEmail(e.target.value)}  // Actualiza el estado email con el valor ingresado
+          type="number"
+          placeholder="Número de teléfono" 
+          value={telefono}  // El valor del input está vinculado al estado email
+          onChange={(e) => setTelefono(e.target.value)}  // Actualiza el estado email con el valor ingresado
           required 
           className={styles.input} 
         />
@@ -30,8 +42,8 @@ const Login = () => {
         <input
           type="password"
           placeholder="Contraseña"
-          value={password}  // El valor del input está vinculado al estado password
-          onChange={(e) => setPassword(e.target.value)}  // Actualiza el estado password con el valor ingresado
+          value={clave}  // El valor del input está vinculado al estado clave
+          onChange={(e) => setClave(e.target.value)}  // Actualiza el estado clave con el valor ingresado
           required  
           className={styles.input}  
         />

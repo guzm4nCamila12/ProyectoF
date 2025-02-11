@@ -10,6 +10,22 @@ export const getUsuarioById = async (id) => {
   return response.json();
 };
 
+export const login = async (inicioUsuario) => {
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",  // Debe ser POST para enviar datos
+    headers: {
+      "Content-Type": "application/json",  // Especificamos que el cuerpo es JSON
+    },
+    body: JSON.stringify(inicioUsuario),  // Convertimos los datos a JSON
+  });
+
+  if (!response.ok) {
+    throw new Error("Error en el inicio de sesión");
+  }
+
+  return response.json();  // Devolvemos la respuesta en formato JSON
+};
+
 export const insertarUsuario = async (nuevoUsuario) => {
   const response = await fetch(`${API_URL}/usuarios`, {
     method: "POST",
