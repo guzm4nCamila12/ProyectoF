@@ -36,7 +36,7 @@ function App() {
         <Route path='/menu-alterno' element={<MenuAlterno/>}/>
 
 
-        <Route path="/sensores-SuperAdmin" element={<ActivarSensores/>}/>
+        <Route path="/sensores-SuperAdmin/:id" element={<ActivarSensores/>}/>
          <Route path='/sensores-grafica' element={<GraficoSensor />}/> 
          <Route path='/datos-sensores' element={<VerSensores/>}/>
 

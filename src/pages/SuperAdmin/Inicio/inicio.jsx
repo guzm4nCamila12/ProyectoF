@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
 import {  Link } from 'react-router-dom';
-import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Api";
+import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 
   
@@ -161,7 +161,7 @@ const handleChangeEditar = (e) => {
           </tr>
         </thead>
         <tbody>
-          {usuarios.length > 0 ? (
+          {Array.isArray(usuarios) && usuarios.length > 0 ? (
             usuarios.map((usuario, index) => (
               <tr key={usuario.id}>
                 <td>{index + 1}</td>
