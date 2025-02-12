@@ -1,5 +1,6 @@
 import React, { useState } from "react"; // Importación de React y useState para manejo de estado
 import styles from "./agregar.module.css";
+import Mapa from "../../../../components/Mapa";
 
 const Agregar = () => {
   // Definición del estado inicial del formulario (nombre y ubicación)
@@ -43,8 +44,8 @@ const Agregar = () => {
 
         {/* Campo para ubicación (esto podría ser mejorado con un mapa o selector de ubicación) */}
         <div>
-          <h2>Ubique su ubicación aquí</h2>
           <h1><i className="bi bi-geo-alt"></i></h1>
+          <Mapa/>
         </div>
         <button type="submit" className={styles.button}>
           AGREGAR
