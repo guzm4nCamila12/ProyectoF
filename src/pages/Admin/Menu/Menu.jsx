@@ -20,8 +20,9 @@ const Menu = () => {
       </Link>
       
       {/* Enlace a la página para ver sensores */}
+      <Link to={'/datos-sensores'}>
       <button type="button" className={styles.button}>Ver sensores</button>
-      
+      </Link>
       {/* Enlace a la página para ver datos de la finca */}
       <button type="button" className={styles.button}>Ver datos de la finca</button>
     </div>
