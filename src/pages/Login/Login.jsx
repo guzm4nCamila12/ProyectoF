@@ -1,26 +1,46 @@
 import React, { useState } from "react";  // Importación de React y useState para manejar el estado
 import styles from "./login.module.css";  
-import { login } from "../../services/Usuarios/ApiUsuarios";
+import { useNavigate } from "react-router-dom";
+import { getUsuarioById, login } from "../../services/Usuarios/ApiUsuarios";
 
 const Login = () => {
   // Estado para almacenar el valor del correo electrónico y la contraseña
   const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
   const [clave, setClave] = useState("");  // Estado para la contraseña
+  const [idUsuarioRol, setIdUsuarioRol] = useState("");
+  const navigate = useNavigate();
+
+
 
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const inicioUsuario = {
+      telefono, clave
+    }
+
+    login(inicioUsuario)
+    .then(data => setIdUsuarioRol(data.id_rol))
+
     
-    const inicioUsuario = { telefono, clave };
-  
-    try {
-      const data = await login(inicioUsuario);
-      if(data){
+      if(idUsuarioRol== 1){
+        console.log("SuperAdmin")
+        navigate("/inicio-SuperAdmin")
         
       }
-    } catch (error) {
-      console.error("Error en el inicio de sesión:", error);
-    }
+      if(idUsuarioRol== 2){
+        console.log("Admin")
+        navigate(`/lista-fincas/${id}`)
+        return
+      }
+      if(idUsuarioRol== 3){
+        console.log("Alterno")
+        return
+      }
+    
+    
+    
   };
 
 
