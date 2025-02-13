@@ -1,28 +1,61 @@
-import React, { useState } from "react"; // Importación de React y useState para manejo de estado
+/*import React, { useState } from "react"; // Importación de React y useState para manejo de estado
 import styles from "./agregar.module.css";
 import Mapa from "../../../../components/Mapa";
+import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
 
 const Agregar = () => {
+
+  
+  const [ubicacion,setUbicacion] = useState([4.8088736064112, -75.68756103515626])
   // Definición del estado inicial del formulario (nombre y ubicación)
   const [formData, setFormData] = useState({
     nombre: "",
-    ubicacion: "",
+    ubi: ubicacion,
   });
 
-  // Maneja los cambios de los campos del formulario
+
+  const [nuevaFinca,setNuevaFinca] = useState({nombre: formData.nombre, idUsuario: 27 ,ubicacion: formData.ubi} )
   const handleChange = (e) => {
-    // Se actualiza el estado del formulario con el valor correspondiente
     setFormData({
-      ...formData,  // Se preservan los valores actuales de formData
-      [e.target.name]: e.target.value,  // Se actualiza el campo que cambia
+      ...formData, 
+      [e.target.name]: e.target.value,  
     });
   };
+  console.log("form:",formData)
+  console.log("nueva finca:",nuevaFinca)
 
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); 
+        const nueva = { 
+            nombre: nuevaFinca.nombre, 
+            idUsuario: nuevaFinca.idUsuario,
+            ubicacion: nuevaFinca.ubicacion,  
+        };
+        console.log("nueva: ",nueva)
+        try {
+          console.log("try:",nueva)
+          const data = await insertarFinca(
+            nueva
+          );
+          console.log(nueva)
+          if (data) {
+            setNuevaFinca({ nombre: "",idUsuario: "",ubicacion: ""});
+    
+            acctionSucessful.fire({
+              icon: "success",
+              title: "Finca agregada correctamente"
+            });
+    
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+        }
     console.log("Datos enviados:", formData); 
+    console.log("Ubicacion: ",ubicacion)
   };
+
+  
 
   return (
     <div className={styles.container}> 
@@ -42,17 +75,107 @@ const Agregar = () => {
           />
         </div>
 
-        {/* Campo para ubicación (esto podría ser mejorado con un mapa o selector de ubicación) */}
-        <div>
+        {/* Campo para ubicación (esto podría ser mejorado con un mapa o selector de ubicación) */
+        /*<div>
           <h1><i className="bi bi-geo-alt"></i></h1>
-          <Mapa/>
+          <Mapa setUbicacion={setUbicacion}/>
         </div>
         <button type="submit" className={styles.button}>
           AGREGAR
         </button>
       </form>
+      <div>
+        <p>Ubicacion Actual: {ubicacion[0]},{ubicacion[1]}</p>
+      </div>
     </div>
   );
 };
 
-export default Agregar
+export default Agregar*/
+
+
+
+
+
+
+
+
+import React, { useState } from "react"; // Importación de React y useState para manejo de estado
+import styles from "./agregar.module.css";
+import Mapa from "../../../../components/Mapa";
+import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
+
+const Agregar = () => {
+  const [nombre, setNombre] = useState("")
+  const [ubicacion, setUbicacion] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 }); // Ubicación inicial en formato { lat, lng }
+  
+
+ 
+
+  // Maneja el envío del formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    const nuevaFinca = { 
+      idUsuario: 1,
+      nombre,
+      ubicacion
+    };
+    console.log("nueva:", nuevaFinca);
+
+    
+
+
+    
+    // try {
+    //   const data = await insertarFinca(nueva); // Aquí haces la llamada para insertar la finca
+    //   console.log("Datos enviados:", nueva);
+
+    //   if (data) {
+    //     setNuevaFinca({ nombre: "", idUsuario: "", ubicacion: {} }); // Resetea los valores después de insertar
+
+    //     acctionSucessful.fire({
+    //       icon: "success",
+    //       title: "Finca agregada correctamente",
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("Error en la solicitud:", error);
+    // }
+  };
+
+  return (
+    <div className={styles.container}> 
+      <h3 className={styles.title}>AGREGAR FINCA</h3> 
+      
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div>
+          <label className={styles.label}>Ingrese su nombre:</label>
+          <input
+            type="text"
+            name="nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            className={styles.input} 
+            placeholder="Nombre"
+            required 
+          />
+        </div>
+
+        <div>
+          <h1><i className="bi bi-geo-alt"></i></h1>
+          <Mapa setUbicacion={setUbicacion} /> {/* Mapa que actualiza la ubicación */}
+        </div>
+        
+        <button type="submit" className={styles.button}>
+          AGREGAR
+        </button>
+      </form>
+      
+      <div>
+        <p>Ubicacion Actual: {ubicacion.lat}, {ubicacion.lng}</p> {/* Muestra la ubicación actual */}
+      </div>
+    </div>
+  );
+};
+
+export default Agregar;
