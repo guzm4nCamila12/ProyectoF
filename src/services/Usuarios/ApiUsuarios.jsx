@@ -10,6 +10,11 @@ export const getUsuarioById = async (id) => {
   return response.json();
 };
 
+export const getUsuarioByIdRol = async (id) => {
+  const response = await fetch(`${API_URL}/usuarios/${id}`);
+  return response.json();
+};
+
 export const login = async (inicioUsuario) => {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",  // Debe ser POST para enviar datos

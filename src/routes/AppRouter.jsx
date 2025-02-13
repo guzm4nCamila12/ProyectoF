@@ -16,6 +16,7 @@ import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
 import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
+import AgregarAlternos from '../pages/Admin/Alternos/TablaAlternos'
 
 
 
@@ -44,6 +45,7 @@ function App() {
         <Route path='/sensores-grafica' element={<GraficoSensor />}/> 
 
         <Route path="/lista-fincas/:id" element={<ListaFincas />} />
+        <Route path="/agregar-alternos" element={<AgregarAlternos/>}/>
 
 
 
