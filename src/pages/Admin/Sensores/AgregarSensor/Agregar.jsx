@@ -11,10 +11,10 @@ const Agregar = () => {
   const [usuario, setUsuario] = useState([]);
   const [fincas, setFincas] = useState([]);
   const [formData, setFormData] = useState({
-    mac: "0",
+    mac: null,
     nombre: "",
     descripcion: "",
-    estado: "false",
+    estado: false,
     idusuario: "",
     idfinca: "",
   });
@@ -31,10 +31,10 @@ const Agregar = () => {
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
-        mac: "0", 
+        mac: null, 
         nombre: "",
         descripcion: "",
-        estado: "false",
+        estado: false,
         idusuario: usuario.id, 
         idfinca: fincas.id,    
       });
