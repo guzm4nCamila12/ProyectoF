@@ -10,7 +10,6 @@ export default function ListaFincas() {
   const [fincas, setFincas] = useState([]);
   const [Usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   let bloque;
-
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
     getUsuarioById(id)
@@ -78,7 +77,9 @@ export default function ListaFincas() {
       bloque= <div>
           <p>Administrador</p>
           <p>Tu Id: {Usuario.id}</p>
+          <Link to={"/agregar-finca"}>
           <button type="button" className="btn btn-secondary">Agregar Finca</button>
+          </Link>
           <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
             <tr>
@@ -112,10 +113,11 @@ export default function ListaFincas() {
                   </td>
                   <td>
                     {/*boton que redirije a la edicion de la finca */}
-                  <button type="button" className="btn btn-secondary">
-                    <i className="bi bi-pencil-square"></i>
-  
-                  </button>
+                  <Link to={`/editar-finca/${finca.id}`}>
+                    <button type="button" className="btn btn-secondary">
+                      <i className="bi bi-pencil-square"></i>
+                    </button>
+                  </Link>
                   </td>
                 </tr>
               ))

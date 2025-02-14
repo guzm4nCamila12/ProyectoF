@@ -38,7 +38,7 @@ const Mapa = ({setUbicacion}) => {
       const { lat, lng } = event.latlng;  // Obtiene las coordenadas del clic
       setPosition({lat, lng});     
       setUbicacion({lat,lng})       // Actualiza la posición
-      console.log('Coordenadas:', lat, lng); // Imprime las coordenadas en consola
+      //console.log('Coordenadas:', lat, lng); // Imprime las coordenadas en consola
     });
     return null;
   };

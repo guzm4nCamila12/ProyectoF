@@ -102,13 +102,6 @@ const handleChangeEditar = (e) => {
     setEditarUsuario(usuario);
   };
 
-  const verUsuario = (id) => {
-    <Link to={`/subastar/${idAnimal}`}>
-                                        <button className={styles.buttonInicioCrud}>
-                                            Iniciar Subasta
-                                        </button>
-                                    </Link>
-  }
 
   //ELIMINAR UN SUSUARIO
   const HandlEliminarUsuario = (id) =>{
