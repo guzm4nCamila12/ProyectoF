@@ -50,7 +50,9 @@ export default function ListaFincas() {
                     <button type="button" className="btn btn-warning">
                       <i className="bi bi-person-fill"></i>
                     </button>
+
                     </Link>
+
                   </td>
                   <td>
                     <Link to={`/sensores-SuperAdmin/${finca.id}`}>
