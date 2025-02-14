@@ -16,8 +16,10 @@ import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
 import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
+
 import AgregarAlternos from '../pages/Admin/Alternos/TablaAlternos'
 import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
+
 
 
 function App() {
@@ -28,7 +30,7 @@ function App() {
         
         <Route path="/" element={<Login />} />
         <Route path="/menu-admin" element={<Menu />} />
-        <Route path="/agregar-sensor" element={<AgregarSensor/>}/>
+        <Route path="/agregar-sensor/:idUs/:idFi" element={<AgregarSensor/>}/>
         <Route path="/editar-sensor" element={<EditarSensor/>}/>
         <Route path="/agregar-finca" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
@@ -38,7 +40,7 @@ function App() {
         <Route path='/menu-alterno' element={<MenuAlterno/>}/>
 
 
-        <Route path="/sensores-SuperAdmin/:id" element={<ActivarSensores/>}/>
+        <Route path="/sensores-SuperAdmin/:id/:idUser" element={<ActivarSensores/>}/>
          <Route path='/sensores-grafica' element={<GraficoSensor />}/> 
          <Route path='/datos-sensores' element={<VerSensores/>}/>
 
