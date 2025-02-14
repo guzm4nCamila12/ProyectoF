@@ -62,7 +62,7 @@ function activarSensores() {
           <th>N°</th>
           <th>NOMBRE</th>
           <th>DESCRIPCION</th>
-          <th>Activo/Inactivo</th>
+          <th>Inactivo/Activo</th>
         </tr>
       </thead>
       <tbody>
@@ -119,7 +119,7 @@ function activarSensores() {
             <th>N°</th>
             <th>NOMBRE</th>
             <th>DESCRIPCION</th>
-            <th>Activo/Inactivo</th>
+            <th>Inactivo/Activo</th>
           </tr>
         </thead>
         <tbody>

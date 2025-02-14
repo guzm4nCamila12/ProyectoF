@@ -13,7 +13,7 @@ const Agregar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     const nuevaFinca = { 
-      idUsuario: 2,
+      idUsuario: 8,
       nombre,
       ubicacion
     };
