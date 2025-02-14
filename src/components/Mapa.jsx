@@ -5,7 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const Mapa = ({setUbicacion}) => {
-  const [position, setPosition] = useState([ 4.8088736064112, -75.68756103515626]); // Ubicación por defecto
+  const [position, setPosition] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 }); // Ubicación por defecto
   const [loading, setLoading] = useState(true); // Estado de carga mientras obtenemos la ubicación del usuario
 
   useEffect(() => {
@@ -36,8 +36,8 @@ const Mapa = ({setUbicacion}) => {
   const MyMapEvents = () => {
     useMapEvent('click', (event) => {
       const { lat, lng } = event.latlng;  // Obtiene las coordenadas del clic
-      setPosition([lat, lng]);     
-      setUbicacion([lat,lng])       // Actualiza la posición
+      setPosition({lat, lng});     
+      setUbicacion({lat,lng})       // Actualiza la posición
       console.log('Coordenadas:', lat, lng); // Imprime las coordenadas en consola
     });
     return null;
