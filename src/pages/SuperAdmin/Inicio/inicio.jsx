@@ -139,6 +139,9 @@ const handleChangeEditar = (e) => {
     }
   })
   }
+  const obtenerRol = () => {
+
+  }
 
 
 
@@ -156,7 +159,7 @@ const handleChangeEditar = (e) => {
             <th>NOMBRE</th>
             <th>TELEFONO</th>
             <th>CORREO</th>
-            <th>CONTRASEÑA</th>
+            <th>ROL</th>
             <th>ACCIONES</th>
           </tr>
         </thead>
@@ -168,7 +171,7 @@ const handleChangeEditar = (e) => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.telefono}</td>
                 <td>{usuario.correo}</td>
-                <td>{usuario.clave}</td>
+                <td>{usuario.id_rol}</td>
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"
