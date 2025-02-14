@@ -139,9 +139,20 @@ const handleChangeEditar = (e) => {
     }
   })
   }
-  const obtenerRol = () => {
-
-  }
+  const obtenerRol = (id_rol) => {
+    switch(id_rol) {
+      case 1:
+        return 'SuperAdmin';
+      case 2:
+        return 'Admin';
+      case 3:
+        return 'Alterno';
+      default:
+        return 'Desconocido'; 
+    }
+  };
+  
+  
 
 
 
@@ -171,7 +182,7 @@ const handleChangeEditar = (e) => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.telefono}</td>
                 <td>{usuario.correo}</td>
-                <td>{usuario.id_rol}</td>
+                <td>{obtenerRol(usuario.id_rol)}</td>
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"

@@ -55,8 +55,10 @@ const Inicio = () => {
         telefono: nuevoUsuario.telefono, 
         correo: nuevoUsuario.correo, 
         clave: nuevoUsuario.clave, 
-        id_rol: Number(nuevoUsuario.id_rol) 
+        id_rol: Number(3),
+        id_finca: Number(id)
     };
+    console.log(nuevo)
     try {
       //Llama a la funcion insertarUsuario importada de la API
       const data = await insertarUsuario(
@@ -163,8 +165,8 @@ const handleChangeEditar = (e) => {
             <th>NOMBRE</th>
             <th>TELEFONO</th>
             <th>CORREO</th>
-            <th>CONTRASEÑA</th>
-            <th>ACCIONES</th>
+            <th>EDITAR</th>
+            <th>ELIMINAR</th>
           </tr>
         </thead>
         <tbody>
@@ -175,7 +177,6 @@ const handleChangeEditar = (e) => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.telefono}</td>
                 <td>{usuario.correo}</td>
-                <td>{usuario.clave}</td>
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"
@@ -183,21 +184,16 @@ const handleChangeEditar = (e) => {
                     data-bs-target="#modalEditar"
                     onClick={() => cargarDatosEdicion(usuario)}
                   >
-                    Editar
+                    <i className="bi bi-pencil-square"></i>
                   </button>
-
+                  </td>
+                  <td>
                   <button
-                    className="btn btn-danger btn-sm m-2"
+                    className="btn btn-danger btn-sm m-1"
                     onClick={() => HandlEliminarUsuario(usuario.id)}
                   >
-                    Eliminar
+                    <i className="bi bi-trash3"></i>
                   </button>
-
-                  <Link to={`/lista-fincas/${usuario.id}`}>
-                    <button className="btn btn-primary btn-sm m-1">
-                      <i className="bi bi-eye-fill"></i>
-                    </button>
-                  </Link>
 
                 </td>
               </tr>
@@ -237,10 +233,6 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">CLAVE</label>
                 <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
 
-                <label className="form-label">ID ROL</label>
-                <input className="form-control" type="text" name="id_rol" value={nuevoUsuario.id_rol} onChange={handleChange} required />
-
-
                 <div className="mt-3">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
                   <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">INSERTAR</button>
@@ -273,8 +265,6 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">CORREO</label>
                 <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} required />
 
-                <label className="form-label">CLAVE</label>
-                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} required />
 
 
                 <div className="mt-3">
