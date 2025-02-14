@@ -11,7 +11,7 @@ export const getUsuarioById = async (id) => {
 };
 
 export const getUsuarioByIdRol = async (id) => {
-  const response = await fetch(`${API_URL}/usuarios/${id}`);
+  const response = await fetch(`${API_URL}/usuarios/alterno/${id}`);
   return response.json();
 };
 

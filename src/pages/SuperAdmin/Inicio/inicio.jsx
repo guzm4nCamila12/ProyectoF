@@ -45,7 +45,7 @@ const Inicio = () => {
         telefono: nuevoUsuario.telefono, 
         correo: nuevoUsuario.correo, 
         clave: nuevoUsuario.clave, 
-        id_rol: Number(nuevoUsuario.id_rol) 
+        id_rol: Number(nuevoUsuario.id_rol)
     };
     try {
       const data = await insertarUsuario(

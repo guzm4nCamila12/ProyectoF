@@ -4,13 +4,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
+import { data, useParams } from "react-router"
+
 import {  Link } from 'react-router-dom';
 //Importa los metodos de services/apiUsuarios
-import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Usuarios/ApiUsuarios";
+import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 
   
 const Inicio = () => {
+    const { id } = useParams();
+  
   //Estado local del componente
   const [usuarios, setUsuarios] = useState([]);//Arreglo de usuarios obtenidos de la Base de Datos
   //Objeto con los datos del usuario que se esta creando 
@@ -24,15 +28,14 @@ const Inicio = () => {
 
   // DATOS DE PRUEBA
   //Carga los datos de los usuarios haciendo una solicitud a la API
-  /*useEffect(() => {
+  useEffect(() => {
 
-    getUsuarios()
+    getUsuarioByIdRol(id)
     .then(data => setUsuarios(data))
     .catch(error => console.error('Error: ',error))
 
-
     
-  }, []);*/
+  }, []);
 
   // Manejo de cambios en los formularios
   const handleChange = (e) => {

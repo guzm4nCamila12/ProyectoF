@@ -42,9 +42,11 @@ export default function ListaFincas() {
                 <tr key={index}>
                   <td className='fs-4'>{finca.nombre}</td>
                   <td>
+                  <Link to={`/alternos/${finca.id}`}>
                     <button type="button" className="btn btn-warning">
                       <i className="bi bi-person-fill"></i>
                     </button>
+                    </Link>
                   </td>
                   <td>
                     <Link to={`/sensores-SuperAdmin/${finca.id}`}>

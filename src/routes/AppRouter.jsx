@@ -17,7 +17,7 @@ import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
 import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
 import AgregarAlternos from '../pages/Admin/Alternos/TablaAlternos'
-
+import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        
         <Route path="/" element={<Login />} />
         <Route path="/menu-admin" element={<Menu />} />
         <Route path="/agregar-sensor" element={<AgregarSensor/>}/>
@@ -46,6 +47,7 @@ function App() {
 
         <Route path="/lista-fincas/:id" element={<ListaFincas />} />
         <Route path="/agregar-alternos" element={<AgregarAlternos/>}/>
+        <Route path="/alternos/:id" element={<TablaAlternos/>}/>
 
 
 
