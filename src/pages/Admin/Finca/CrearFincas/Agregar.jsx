@@ -1,27 +1,32 @@
 import React, { useState } from "react"; // Importación de React y useState para manejo de estado
 import styles from "./agregar.module.css";
-import Mapa from "../../../../components/Mapa";
+import Mapa from "../../../../components/Mapa";//Importamos el componente que contiene el mapa
+import { insertarFinca } from "../../../../services/Fincas/ApiFincas";//Importamos el metodo insertarFinca de la ApiFincas
+import { acctionSucessful } from "../../../../components/alertSuccesful";//Importamos el mensaje de registro de finca exitoso
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Agregar = () => {
-  // Definición del estado inicial del formulario (nombre y ubicación)
-  const [formData, setFormData] = useState({
-    nombre: "",
-    ubicacion: "",
-  });
-
-  // Maneja los cambios de los campos del formulario
-  const handleChange = (e) => {
-    // Se actualiza el estado del formulario con el valor correspondiente
-    setFormData({
-      ...formData,  // Se preservan los valores actuales de formData
-      [e.target.name]: e.target.value,  // Se actualiza el campo que cambia
-    });
-  };
-
+  const [nombre, setNombre] = useState("")
+  const [ubicacion, setUbicacion] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 });
+  
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); 
-    console.log("Datos enviados:", formData); 
+    const nuevaFinca = { 
+      idUsuario: 2,
+      nombre,
+      ubicacion
+    };
+    console.log("nueva:", nuevaFinca);
+
+    insertarFinca(nuevaFinca)
+    .then(data => console.log(data))
+
+    acctionSucessful.fire({
+      icon: "success",
+      title: "Finca Insertada Correctamente"
+    });
+
   };
 
   return (
@@ -33,26 +38,30 @@ const Agregar = () => {
           <label className={styles.label}>Ingrese su nombre:</label>
           <input
             type="text"
-            name="nombre"  // (para la gestión de su valor en el estado)
-            value={formData.nombre}  // Valor del input, vinculado con el estado
-            onChange={handleChange}  // Llama a la función que actualiza el estado cuando cambia el valor
+            name="nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
             className={styles.input} 
             placeholder="Nombre"
             required 
           />
         </div>
 
-        {/* Campo para ubicación (esto podría ser mejorado con un mapa o selector de ubicación) */}
         <div>
           <h1><i className="bi bi-geo-alt"></i></h1>
-          <Mapa/>
+          <Mapa setUbicacion={setUbicacion} /> {/* Mapa que actualiza la ubicación */}
         </div>
+        
         <button type="submit" className={styles.button}>
           AGREGAR
         </button>
       </form>
+      
+      <div>
+        <p>Ubicacion Actual: {ubicacion.lat}, {ubicacion.lng}</p> {/* Muestra la ubicación actual */}
+      </div>
     </div>
   );
 };
 
-export default Agregar
+export default Agregar;
