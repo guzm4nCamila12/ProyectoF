@@ -57,7 +57,7 @@ const Inicio = () => {
 
         acctionSucessful.fire({
           icon: "success",
-          title: "Usuario agregado correctamete"
+          title: "Usuario agregado correctamente"
         });
 
       }
@@ -258,7 +258,7 @@ const handleChangeEditar = (e) => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">EDITAR LIBRO</h5>
+              <h5 className="modal-title">EDITAR USUARIO</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body">
@@ -269,7 +269,7 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">NOMBRE</label>
                 <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar} required />
 
-                <label className="form-label">telefono</label>
+                <label className="form-label">TELEFONO</label>
                 <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar} required />
 
                 <label className="form-label">CORREO</label>

@@ -5,7 +5,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
 import { data, useParams } from "react-router"
-
 import {  Link } from 'react-router-dom';
 //Importa los metodos de services/apiUsuarios
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
@@ -70,7 +69,7 @@ const Inicio = () => {
 
         acctionSucessful.fire({
           icon: "success",
-          title: "Usuario agregado correctamete"
+          title: "Usuario agregado correctamente"
         });
 
       }
@@ -92,7 +91,7 @@ const Inicio = () => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         icon: "success",
-        title: "Usuario editado correctamete"
+        title: "Usuario editado correctamente"
       });
 
     }catch(error){
@@ -138,7 +137,7 @@ const handleChangeEditar = (e) => {
           setUsuarios(usuarios.filter(usuario => usuario.id !== id));
           acctionSucessful.fire({
             icon: "success",
-            title: "Usuario eliminado correctamete"
+            title: "Usuario eliminado correctamente"
           });
           
 
@@ -216,7 +215,7 @@ const handleChangeEditar = (e) => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">INSERTAR USUARIO</h5>
+              <h5 className="modal-title">INSERTAR ALTERNO</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body">

@@ -24,7 +24,7 @@ const Agregar = () => {
 
     acctionSucessful.fire({
       icon: "success",
-      title: "Finca Insertada Correctamente"
+      title: "Finca insertada correctamente"
     });
 
   };

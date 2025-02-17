@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
 import GraficoSensor from '../GraficoSensor/GraficoSensor';
 
 export default function VerSensores() {
@@ -26,27 +24,6 @@ export default function VerSensores() {
     ]);
   }, []);
 
-  // Función para eliminar un sensor con confirmación de SweetAlert  
-  const eliminarSensor = (id) => {
-    Swal.fire({
-      icon: 'error',
-      title: '¿Estás seguro?',
-      text: "¿Estás seguro de eliminar este sensor?",
-      showCancelButton: true,
-      confirmButtonColor: "red",
-      cancelButtonColor: "blue",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(id);
-        const nuevoMap = new Map(datosSensor);
-        console.log(nuevoMap);
-        nuevoMap.delete(id);
-        setDatosSensores([...nuevoMap.values()]); // Corregir el estado para que refleje la eliminación
-      }
-    });
-  };
 
   return (
     <div>
@@ -75,12 +52,6 @@ export default function VerSensores() {
             )}
           </tbody>
         </table>
-        
-        {/* Botones de acción */}
-        <Link to={"/editar-sensor"}>
-          <button type="button" className="btn btn-success">Editar</button>
-        </Link>
-        <button type="button" className="btn btn-danger" onClick={() => eliminarSensor(1)}>Eliminar</button>
         
         <GraficoSensor />
       </div>

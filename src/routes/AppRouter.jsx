@@ -9,7 +9,7 @@ import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio';
 import EditarFinca from '../pages/Admin/Finca/EditarFinca/editar';
 import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
-import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
+//import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
 import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
 import FincasAdmin from "../pages/SuperAdmin/verAdmin/FincasAdmin";
@@ -37,7 +37,7 @@ function App() {
          <Route path='/datos-sensores' element={<VerSensores/>}/>
 
         <Route path="/sensores-admin" element={<ActivarSensores/>}/>
-        <Route path='/sensores-grafica' element={<GraficoSensor />}/> 
+        {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         <Route path="/lista-fincas/:id" element={<ListaFincas />} />
         <Route path="/alternos/:id" element={<TablaAlternos/>}/>

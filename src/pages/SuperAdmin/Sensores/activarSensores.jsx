@@ -180,7 +180,7 @@ function activarSensores() {
                   </button>
                   </td>
                   <td>
-                    <Link to={`/sensores-grafica`}>
+                    <Link to={`/datos-sensores`}>
                   <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
