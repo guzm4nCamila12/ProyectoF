@@ -27,7 +27,7 @@ function App() {
         <Route path="/agregar-sensor/:idUs/:idFi" element={<AgregarSensor/>}/>
         <Route path="/agregar-finca" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
-        {/*PRUEBA */}
+        
         <Route path="/inicio-SuperAdmin/fincas-Admin/:id" element={<FincasAdmin/>}/>
         <Route path="/inicio-SuperAdmin/sensores-usuario/:id/:idUser" element={<SensoresAdmin/>}/>
 
