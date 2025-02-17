@@ -50,64 +50,22 @@ function activarSensores() {
   };
 
   //asignar las acciones según el rol del usuario
-  function asignarRoles(idRol){
-    switch(idRol){
-      case 1:
-        bloque=<div>
-        <p>Super admin</p>
-        <table className="table table-bordered mt-3">
-      <thead className="bg-dark text-light text-center">
-        <tr>
-            
-          <th>N°</th>
-          <th>NOMBRE</th>
-          <th>DESCRIPCION</th>
-          <th>Inactivo/Activo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* Si hay sensores, los mostramos, de lo contrario mostramos un mensaje de no hay datos */}
-        {Array.isArray(sensores) && sensores.length > 0 ? (
-          sensores.map((sensor, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{sensor.nombre}</td>
-              <td>{sensor.descripcion}</td>
-              <td className="d-flex justify-content-center align-items-center">
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id={`flexSwitchCheck${index}`}
-                    onChange={handleSwitch}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="4" className="text-center">
-              No hay datos
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+
+         
+       
+
+        
 
 
 
 
 
-      </div>
 
-      return bloque;
-
-
-      case 2:
-        bloque=<div>
-          <p>Administrador</p>
+  return (
+    <div className="container mt-4">
+      <h1 className="text-center">{fincas.nombre}</h1>
+      <h2>Id de finca: {id}</h2>
+      <p>Administrador</p>
           {/*Boton para que el administrador pueda agregar un sensor */}
           <Link to={`/agregar-sensor/${usuario.id}/${id}`}>
           <button type="button" className="btn btn-success">Agregar Sensor</button>
@@ -117,6 +75,7 @@ function activarSensores() {
           <tr>
               
             <th>N°</th>
+            <th>MAC</th>
             <th>NOMBRE</th>
             <th>DESCRIPCION</th>
             <th>Inactivo/Activo</th>
@@ -128,6 +87,7 @@ function activarSensores() {
             sensores.map((sensor, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
+                <td>{sensor.mac}</td>
                 <td>{sensor.nombre}</td>
                 <td>{sensor.descripcion}</td>
                 <td className="d-flex justify-content-center align-items-center">
@@ -136,6 +96,7 @@ function activarSensores() {
                       className="form-check-input"
                       type="checkbox"
                       role="switch"
+                      checked={sensor.estado}
                       id={`flexSwitchCheck${index}`}
                       onChange={handleSwitch}
                       disabled
@@ -153,83 +114,6 @@ function activarSensores() {
           )}
         </tbody>
       </table>
-
-
-
-
-
-        </div>
-
-        return bloque;
-
-        case 3:
-          bloque=<div>
-          <p>Alterno</p>
-          <table className="table table-bordered mt-3">
-        <thead className="bg-dark text-light text-center">
-          <tr>
-              
-            <th>N°</th>
-            <th>NOMBRE</th>
-            <th>DESCRIPCION</th>
-            <th>Activo/Inactivo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Si hay sensores, los mostramos, de lo contrario mostramos un mensaje de no hay datos */}
-          {Array.isArray(sensores) && sensores.length > 0 ? (
-            sensores.map((sensor, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{sensor.nombre}</td>
-                <td>{sensor.descripcion}</td>
-                <td className="d-flex justify-content-center align-items-center">
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id={`flexSwitchCheck${index}`}
-                      onChange={handleSwitch}
-                      disabled
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" className="text-center">
-                No hay datos
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-
-
-
-
-        </div>
-
-        return bloque;
-      default: return 'Sin Rol';
-
-    }
-
-  }
-
-
-
-
-
-
-  return (
-    <div className="container mt-4">
-      <h1 className="text-center">{fincas.nombre}</h1>
-      <h2>Id de finca: {id}</h2>
-      {asignarRoles(usuario.id_rol) }
      
 
       <div

@@ -9,7 +9,9 @@ import { getUsuarioById } from "../../../services/Usuarios/ApiUsuarios";
 import { useState, useEffect } from "react"; // Importación de hooks de React
 import { Link } from "react-router";
 import { actualizarSensor } from "../../../services/Sensores/ApiSensores";
+import Swal from 'sweetalert2'
 
+import withReactContent from 'sweetalert2-react-content'
 
 //hacer todo el proceso de envio de datos en el modal y solo llamarlo en el handlerSwitch
 
@@ -22,9 +24,7 @@ function SensoresAdmin() {
 
   const [usuario, setUsuario] = useState({});
   const [estado, setEstado] = useState([]);
-
-  //id es el id de la finca para traer todos los sensores de la finca
-
+  let inputValue = '';
   const { id, idUser } = useParams();
 
   // Estado para controlar si el checkbox está activado o no
@@ -50,10 +50,57 @@ function SensoresAdmin() {
 
   console.log(estado);
 
-
-
+  const showSwal = () => {
+    return withReactContent(Swal).fire({
+      title: <i>Ingrese la direccion MAC del sensor:</i>,
+      input: 'text',
+      showCancelButton: true,
+      cancelButtonText: "cancelar",
+      inputValue,
+      preConfirm: () => {
+        const value = Swal.getInput()?.value; // Obtener el valor del campo de entrada
+        if (!value) {  // Si el campo está vacío, mostrar un mensaje de advertencia
+          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          return false;  // Evitar que el usuario confirme
+        }
+        inputValue= value; // Si hay un valor, actualizar el estado
+        console.log("Direccion MAC:", value);
+        
+        return true;  // Permitir que se confirme
+      },
+      
+    });
+  };
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
-  const handleSwitch = (id, estado, index) => {
+  
+  const handleSwitch = async (id, estado, index) => {
+    if(estado === true) {
+      const newEstado = !estado;
+  
+      // Crear una copia del array de sensores y actualizar el estado del sensor en la posición correspondiente
+      const updatedSensores = [...sensores];
+      updatedSensores[index].estado = newEstado;
+  
+      // Actualizamos el estado de los sensores para reflejar los cambios en la UI
+      setSensores(updatedSensores);
+  
+      const updatedFormData = {
+        mac: null,
+        nombre: sensores[index].nombre,
+        descripcion: sensores[index].descripcion,
+        estado: newEstado,
+        idusuario: sensores[index].idusuario,
+        idfinca: sensores[index].idfinca,
+      };
+  
+      actualizarSensor(sensores[index].id, updatedFormData)
+  
+      console.log("sensor:", updatedFormData);
+    }else{
+
+    const confirmacion = await showSwal();
+      console.log("confirmacion",confirmacion)
+    if (confirmacion.isConfirmed){
     const newEstado = !estado;
   
     // Crear una copia del array de sensores y actualizar el estado del sensor en la posición correspondiente
@@ -62,9 +109,9 @@ function SensoresAdmin() {
 
     // Actualizamos el estado de los sensores para reflejar los cambios en la UI
     setSensores(updatedSensores);
-
+      console.log(inputValue)
     const updatedFormData = {
-      mac: null,
+      mac: inputValue,
       nombre: sensores[index].nombre,
       descripcion: sensores[index].descripcion,
       estado: newEstado,
@@ -73,15 +120,19 @@ function SensoresAdmin() {
     };
 
     actualizarSensor(sensores[index].id, updatedFormData)
-
+    inputValue='';// Limpiar el campo de entrada
     console.log("sensor:", updatedFormData);
-
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'El sensor se actualizó correctamente.',
+      confirmButtonText: 'Aceptar',
+    });
+  }
+    }
   };
 
-  const handleHabilitar = (event) => {
-
-  };
-
+  
   function estadoSensores(estado, id, index) {
 
     let checkbox = <div className="form-check form-switch">
@@ -105,7 +156,9 @@ function SensoresAdmin() {
 
 
   return (
+    
     <div className="container mt-4">
+       
       <p>OBSERVANDO A:</p>
       <h1 className="text-center">{fincas.nombre}</h1>
       <h2>Id de finca: {id}</h2>
@@ -121,6 +174,7 @@ function SensoresAdmin() {
           <tr>
 
             <th>N°</th>
+            <th>MAC</th>
             <th>NOMBRE</th>
             <th>DESCRIPCION</th>
             <th>Inactivo/Activo</th>
@@ -132,6 +186,7 @@ function SensoresAdmin() {
             sensores.map((sensor, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
+                <td>{sensor.mac}</td>
                 <td>{sensor.nombre}</td>
                 <td>{sensor.descripcion}</td>
                 <td className="d-flex justify-content-center align-items-center">
@@ -150,56 +205,7 @@ function SensoresAdmin() {
       </table>
 
 
-      <div
-        className="modal fade"
-        id="modalEditar"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex="-1"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Habilitar sensor</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleHabilitar}>
-              
-                
-
-                <label className="form-label">Dirección MAC</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  name="mac"
-                  required
-                />
-
-
-
-                {/* Botones de acción para cerrar el modal o editar */}
-                <div className="mt-3">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    CERRAR
-                  </button>
-                  <button type="submit" className="btn btn-primary ms-2">
-                    Habilitar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+     
     </div>
   );
 }
