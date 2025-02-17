@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -71,7 +71,7 @@ const Inicio = () => {
 
   // EDITAR USUARIO
   const handleEditar = async (e) => {
-    e.preventDefault();
+    e.preventDefaEDITARult();
     try{
       actualizarUsuario(editarUsuario.id,editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
@@ -127,11 +127,12 @@ const handleChangeEditar = (e) => {
           
 
         }catch{
-          console.error("Error eliminando usuario:", error);
+          console.error("Error eliminando usuario:");
         }
     }
   })
   }
+
   const obtenerRol = (id_rol) => {
     switch(id_rol) {
       case 1:
@@ -145,9 +146,6 @@ const handleChangeEditar = (e) => {
     }
   };
   
-  
-
-
 
   
 
@@ -164,7 +162,9 @@ const handleChangeEditar = (e) => {
             <th>TELEFONO</th>
             <th>CORREO</th>
             <th>ROL</th>
-            <th>ACCIONES</th>
+            <th>EDITAR</th>
+            <th>ELIMINAR</th>
+            <th>VER FINCAS</th>
           </tr>
         </thead>
         <tbody>
@@ -183,17 +183,19 @@ const handleChangeEditar = (e) => {
                     data-bs-target="#modalEditar"
                     onClick={() => cargarDatosEdicion(usuario)}
                   >
-                    Editar
+                    <i className="bi bi-pencil-square"></i>
                   </button>
+                  </td>
 
-                  <button
-                    className="btn btn-danger btn-sm m-2"
+                  <td><button
+                    className="btn btn-danger btn-sm m-1"
                     onClick={() => HandlEliminarUsuario(usuario.id)}
                   >
-                    Eliminar
+                   <i className="bi bi-trash3"></i>
                   </button>
+                  </td>
 
-                  <Link to={`/inicio-SuperAdmin/fincas-admin/${usuario.id}`}>
+                  <td><Link to={`/lista-fincas/${usuario.id}`}>
                     <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
