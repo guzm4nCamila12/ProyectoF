@@ -77,7 +77,7 @@ const Inicio = () => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         icon: "success",
-        title: "Usuario editado correctamete"
+        title: "Usuario editado correctamente"
       });
 
     }catch(error){
@@ -122,7 +122,7 @@ const handleChangeEditar = (e) => {
           setUsuarios(usuarios.filter(usuario => usuario.id !== id));
           acctionSucessful.fire({
             icon: "success",
-            title: "Usuario eliminado correctamete"
+            title: "Usuario eliminado correctamente"
           });
           
 
@@ -195,7 +195,7 @@ const handleChangeEditar = (e) => {
                   </button>
                   </td>
 
-                  <td><Link to={`/lista-fincas/${usuario.id}`}>
+                  <td><Link to={`/inicio-SuperAdmin/fincas-Admin/${usuario.id}`}>
                     <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
@@ -205,7 +205,7 @@ const handleChangeEditar = (e) => {
               </tr>
             ))
           ) : (
-            <tr>
+            <tr>onChange={handleChangeEditar}
               <td colSpan="5" className="text-center">No hay datos</td>
             </tr>
           )}
