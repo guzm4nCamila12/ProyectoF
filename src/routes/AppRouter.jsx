@@ -12,6 +12,8 @@ import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
 import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
 import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
+import FincasAdmin from "../pages/SuperAdmin/verAdmin/FincasAdmin";
+import SensoresAdmin from "../pages/SuperAdmin/verAdmin/SensoresAdmin";
 
 
 
@@ -25,6 +27,9 @@ function App() {
         <Route path="/agregar-sensor/:idUs/:idFi" element={<AgregarSensor/>}/>
         <Route path="/agregar-finca" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
+        {/*PRUEBA */}
+        <Route path="/inicio-SuperAdmin/fincas-Admin/:id" element={<FincasAdmin/>}/>
+        <Route path="/inicio-SuperAdmin/sensores-usuario/:id/:idUser" element={<SensoresAdmin/>}/>
 
         <Route path="/editar-finca/:id" element={<EditarFinca/>}/>
 

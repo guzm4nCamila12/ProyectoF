@@ -193,7 +193,7 @@ const handleChangeEditar = (e) => {
                     Eliminar
                   </button>
 
-                  <Link to={`/lista-fincas/${usuario.id}`}>
+                  <Link to={`/inicio-SuperAdmin/fincas-admin/${usuario.id}`}>
                     <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
