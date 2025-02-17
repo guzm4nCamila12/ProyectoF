@@ -4,8 +4,10 @@ import Mapa from "../../../../components/Mapa";//Importamos el componente que co
 import { insertarFinca } from "../../../../services/Fincas/ApiFincas";//Importamos el metodo insertarFinca de la ApiFincas
 import { acctionSucessful } from "../../../../components/alertSuccesful";//Importamos el mensaje de registro de finca exitoso
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useParams } from "react-router"
 
 const Agregar = () => {
+  const { id } = useParams();
   const [nombre, setNombre] = useState("")
   const [ubicacion, setUbicacion] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 });
   
@@ -13,7 +15,7 @@ const Agregar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     const nuevaFinca = { 
-      idUsuario: 8,
+      idUsuario: Number(id),
       nombre,
       ubicacion
     };
