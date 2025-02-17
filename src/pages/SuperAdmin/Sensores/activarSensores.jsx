@@ -7,17 +7,34 @@ import { actualizarSensor, getSensoresById, eliminarSensores } from "../../../se
 import { getFincasByIdFincas } from "../../../services/Fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/Usuarios/ApiUsuarios";
 import { useState, useEffect } from "react"; // Importación de hooks de React
+<<<<<<< HEAD
 import { Link } from "react-router";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Swal from 'sweetalert2';
+=======
+import { insertarSensor } from "../../../services/Sensores/ApiSensores";
+import Swal from 'sweetalert2'
+>>>>>>> 748ef689029567c057ac0078882ea0cc51811614
 
 function activarSensores() {
   // Estado para almacenar la lista de sensores
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
+<<<<<<< HEAD
   const [editarSensor, setEditarSensor] = useState({nombre: "", descripcion: ""});
   let bloque
+=======
+  
+  const [formData, setFormData] = useState({
+      mac: null,
+      nombre: "",
+      descripcion: "",
+      estado: false,
+      idusuario: "",
+      idfinca: "",
+    });
+>>>>>>> 748ef689029567c057ac0078882ea0cc51811614
   //id es el id de la finca para traer todos los sensores de la finca
   
   const {id,idUser} = useParams();
@@ -37,12 +54,49 @@ function activarSensores() {
     getFincasByIdFincas(id).then((data) => setFincas(data));
   }, []);
 
+
+useEffect(() => {
+      if (usuario && fincas) {
+        setFormData({
+          mac: null, 
+          nombre: "",
+          descripcion: "",
+          estado: false,
+          idusuario: usuario.id, 
+          idfinca: fincas.id,    
+        });
+      }
+    }, [usuario, fincas]); 
+
+    // Maneja los cambios de los campos del formulario
+      const handleChange = (e) => {
+        // Se actualiza el estado del formulario con el valor correspondiente
+        setFormData({
+          ...formData, // Se preservan los valores actuales de formData
+          [e.target.name]: e.target.value, // Se actualiza el campo que cambia
+        });
+      };
+    
+      // Maneja el envío del formulario
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        insertarSensor(formData);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'El sensor se actualizó correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
+        console.log("Datos enviados:", formData);
+      };
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
   const handleSwitch = (event) => {
     setCheck(event.target.checked); // Actualiza el estado 'check' con el valor del checkbox
     console.log(fincas);
   };
 
+<<<<<<< HEAD
   const handleEditar = async (e) => {
     e.preventDefault();
       try{
@@ -98,6 +152,8 @@ function activarSensores() {
     })
     }
 
+=======
+>>>>>>> 748ef689029567c057ac0078882ea0cc51811614
   // Función llamada al oprimir un botón
   const oprimir = (e, a) => {
     if (e) {
@@ -123,9 +179,9 @@ function activarSensores() {
       <h2>Id de finca: {id}</h2>
       <p>Administrador</p>
           {/*Boton para que el administrador pueda agregar un sensor */}
-          <Link to={`/agregar-sensor/${usuario.id}/${id}`}>
-          <button type="button" className="btn btn-success">Agregar Sensor</button>
-          </Link>
+          
+          <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalInsertar">Agregar Sensor</button>
+          
           <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
           <tr>
@@ -199,16 +255,11 @@ function activarSensores() {
       </table>
      
 
-      <div
-        className="modal fade"
-        id="modalEditar"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex="-1"
-      >
+      <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
+<<<<<<< HEAD
               <h5 className="modal-title">EDITAR SENSOR</h5>
               <button
                 type="button"
@@ -251,6 +302,33 @@ function activarSensores() {
                   <button type="submit" className="btn btn-primary ms-2 " data-bs-dismiss="modal">
                     EDITAR
                   </button>
+=======
+              <h5 className="modal-title">INSERTAR SENSOR</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <label className="form-label">NOMBRE</label>
+                <input className="form-control" type="text"
+                  name="nombre" // (para la gestión de su valor en el estado)
+                  // Valor del input, vinculado con el estado
+                  onChange={handleChange} // Llama a la función que actualiza el estado cuando cambia el valor
+                  placeholder="Nombre"
+                  required />
+
+                <label className="form-label">DESCRIPCION</label>
+                <input type="text"
+                  name="descripcion"
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Descripcion"
+                  required />
+
+
+                <div className="mt-3">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">AGREGAR</button>
+>>>>>>> 748ef689029567c057ac0078882ea0cc51811614
                 </div>
               </form>
             </div>
