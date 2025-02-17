@@ -1,14 +1,14 @@
 //Importacion de Dependencias
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
-import { data, useParams } from "react-router"
+import {  useParams } from "react-router"
 
 import {  Link } from 'react-router-dom';
 //Importa los metodos de services/apiUsuarios
-import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
+import {  insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 
   
@@ -141,7 +141,7 @@ const handleChangeEditar = (e) => {
           
 
         }catch{
-          console.error("Error eliminando usuario:", error);
+          console.error("Error eliminando usuario:");
         }
     }
   })

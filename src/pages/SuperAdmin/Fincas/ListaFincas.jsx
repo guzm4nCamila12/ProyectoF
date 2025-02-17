@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from "react-router"
 import { getUsuarioById } from '../../../services/Usuarios/ApiUsuarios';
@@ -48,7 +48,7 @@ export default function ListaFincas() {
                   <td>
                   <Link to={`/alternos/${finca.id}`}>
                     <button type="button" className="btn btn-warning">
-                      <i className="bi bi-person-fill"></i>
+                    <i className="bi bi-people-fill"></i>
                     </button>
 
                     </Link>
@@ -99,7 +99,7 @@ export default function ListaFincas() {
                   <Link to={`/alternos/${finca.id}`}>
 
                     <button type="button" className="btn btn-warning">
-                      <i className="bi bi-person-fill"></i>
+                      <i className="bi bi-people-fill"></i>
                     </button>
                     </Link>
                   </td>
