@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from "react-router"
 import { getUsuarioById } from '../../../services/Usuarios/ApiUsuarios';
-import { getFincasById } from '../../../services/Fincas/ApiFincas';
+import { eliminarFincas, getFincasById } from '../../../services/Fincas/ApiFincas';
+import Swal from 'sweetalert2';
+import { acctionSucessful } from '../../../components/alertSuccesful';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -22,8 +24,36 @@ export default function ListaFincas() {
     
   }, []);
 
+   //ELIMINAR UNA FINCA
+    const HandlEliminarFinca = (id) =>{
+      Swal.fire({
+        icon: 'error',
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de eliminar esta Finca?",
+        showCancelButton: true,
+        confirmButtonColor: "red",
+        cancelButtonColor: "blue",
+        confirmButtonText: "si, eliminar ",
+        cancelButtonText: "cancelar "
+    }).then((result) => {
+      if(result.isConfirmed){
+        try{
+          eliminarFincas(id)
+          setFincas(fincas.filter(finca => finca.id !== id));
+          acctionSucessful.fire({
+            icon: "success",
+            title: "Finca eliminada correctamente"
+          });
+          
 
-   //se limitan las acciones según el rol del usuario
+        }catch{
+          console.error("Error eliminando Finca:");
+        }
+      }
+    })
+    }
+
+  //se limitan las acciones según el rol del usuario
   function asignarRoles(id){
     switch(id){
       case 1:
@@ -77,7 +107,7 @@ export default function ListaFincas() {
       bloque= <div>
           <p>Administrador</p>
           <p>Tu Id: {Usuario.id}</p>
-          <Link to={"/agregar-finca"}>
+          <Link to={`/agregar-finca/${Usuario.id}`}>
           <button type="button" className="btn btn-secondary">Agregar Finca</button>
           </Link>
           <table className="table table-bordered mt-3">
@@ -87,6 +117,7 @@ export default function ListaFincas() {
               <th>Alternos</th>
               <th>Sensor/es</th>
               <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -118,6 +149,11 @@ export default function ListaFincas() {
                       <i className="bi bi-pencil-square"></i>
                     </button>
                   </Link>
+                  </td>
+                  <td>
+                  <button type="button" onClick={() => HandlEliminarFinca(finca.id)} className="btn btn-danger btn-sm m-1">
+                   <i className="bi bi-trash3"></i>
+                  </button>
                   </td>
                 </tr>
               ))

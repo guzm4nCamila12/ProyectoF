@@ -265,6 +265,9 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">CORREO</label>
                 <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} required />
 
+                <label className="form-label">CLAVE</label>
+                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} required />
+
 
 
                 <div className="mt-3">
