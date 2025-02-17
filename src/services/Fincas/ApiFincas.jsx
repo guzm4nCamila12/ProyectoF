@@ -26,6 +26,7 @@ export const actualizarFinca = async (id, fincaActualizada) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
   });
+  return response;
   
 };
 
