@@ -57,7 +57,7 @@ const Inicio = () => {
 
         acctionSucessful.fire({
           icon: "success",
-          title: "Usuario agregado correctamete"
+          title: "Usuario agregado correctamente"
         });
 
       }
@@ -77,7 +77,7 @@ const Inicio = () => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         icon: "success",
-        title: "Usuario editado correctamete"
+        title: "Usuario editado correctamente"
       });
 
     }catch(error){
@@ -122,7 +122,7 @@ const handleChangeEditar = (e) => {
           setUsuarios(usuarios.filter(usuario => usuario.id !== id));
           acctionSucessful.fire({
             icon: "success",
-            title: "Usuario eliminado correctamete"
+            title: "Usuario eliminado correctamente"
           });
           
 
@@ -195,7 +195,7 @@ const handleChangeEditar = (e) => {
                   </button>
                   </td>
 
-                  <td><Link to={`/lista-fincas/${usuario.id}`}>
+                  <td><Link to={`/inicio-SuperAdmin/fincas-Admin/${usuario.id}`}>
                     <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
@@ -205,7 +205,7 @@ const handleChangeEditar = (e) => {
               </tr>
             ))
           ) : (
-            <tr>
+            <tr>onChange={handleChangeEditar}
               <td colSpan="5" className="text-center">No hay datos</td>
             </tr>
           )}
@@ -258,7 +258,7 @@ const handleChangeEditar = (e) => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">EDITAR LIBRO</h5>
+              <h5 className="modal-title">EDITAR USUARIO</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body">
@@ -269,7 +269,7 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">NOMBRE</label>
                 <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar} required />
 
-                <label className="form-label">telefono</label>
+                <label className="form-label">TELEFONO</label>
                 <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar} required />
 
                 <label className="form-label">CORREO</label>
