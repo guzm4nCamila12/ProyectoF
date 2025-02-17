@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"; // Importación de hooks de React
 import { Link } from "react-router";
 import { actualizarSensor } from "../../../services/Sensores/ApiSensores";
 import Swal from 'sweetalert2'
+import { insertarSensor } from "../../../services/Sensores/ApiSensores";
 
 import withReactContent from 'sweetalert2-react-content'
 
@@ -26,7 +27,14 @@ function SensoresAdmin() {
   const [estado, setEstado] = useState([]);
   let inputValue = '';
   const { id, idUser } = useParams();
-
+const [formData, setFormData] = useState({
+    mac: null,
+    nombre: "",
+    descripcion: "",
+    estado: false,
+    idusuario: "",
+    idfinca: "",
+  });
   // Estado para controlar si el checkbox está activado o no
 
   // Datos de prueba para simular los sensores
@@ -48,8 +56,37 @@ function SensoresAdmin() {
 
   }, [id, idUser]);
 
-  console.log(estado);
+  //se inicializan los campos luego de hacer todas las consultas necesarias
+   useEffect(() => {
+      if (usuario && fincas) {
+        setFormData({
+          mac: null, 
+          nombre: "",
+          descripcion: "",
+          estado: false,
+          idusuario: usuario.id, 
+          idfinca: fincas.id,    
+        });
+      }
+    }, [usuario, fincas]); 
 
+// Maneja los cambios de los campos del formulario
+  const handleChange = (e) => {
+    // Se actualiza el estado del formulario con el valor correspondiente
+    setFormData({
+      ...formData, // Se preservan los valores actuales de formData
+      [e.target.name]: e.target.value, // Se actualiza el campo que cambia
+    });
+  };
+
+  // Maneja el envío del formulario
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    insertarSensor(formData);
+  
+    console.log("Datos enviados:", formData);
+  };
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: <i>Ingrese la direccion MAC del sensor:</i>,
@@ -63,27 +100,27 @@ function SensoresAdmin() {
           Swal.showValidationMessage('¡Este campo es obligatorio!');
           return false;  // Evitar que el usuario confirme
         }
-        inputValue= value; // Si hay un valor, actualizar el estado
+        inputValue = value; // Si hay un valor, actualizar el estado
         console.log("Direccion MAC:", value);
-        
+
         return true;  // Permitir que se confirme
       },
-      
+
     });
   };
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
-  
+
   const handleSwitch = async (id, estado, index) => {
-    if(estado === true) {
+    if (estado === true) {
       const newEstado = !estado;
-  
+
       // Crear una copia del array de sensores y actualizar el estado del sensor en la posición correspondiente
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
-  
+
       // Actualizamos el estado de los sensores para reflejar los cambios en la UI
       setSensores(updatedSensores);
-  
+
       const updatedFormData = {
         mac: null,
         nombre: sensores[index].nombre,
@@ -92,47 +129,45 @@ function SensoresAdmin() {
         idusuario: sensores[index].idusuario,
         idfinca: sensores[index].idfinca,
       };
-  
+
       actualizarSensor(sensores[index].id, updatedFormData)
-  
+
       console.log("sensor:", updatedFormData);
-    }else{
+    } else {
 
-    const confirmacion = await showSwal();
-      console.log("confirmacion",confirmacion)
-    if (confirmacion.isConfirmed){
-    const newEstado = !estado;
-  
-    // Crear una copia del array de sensores y actualizar el estado del sensor en la posición correspondiente
-    const updatedSensores = [...sensores];
-    updatedSensores[index].estado = newEstado;
+      const confirmacion = await showSwal();
+      console.log("confirmacion", confirmacion)
+      if (confirmacion.isConfirmed) {
+        const newEstado = !estado;
 
-    // Actualizamos el estado de los sensores para reflejar los cambios en la UI
-    setSensores(updatedSensores);
-      console.log(inputValue)
-    const updatedFormData = {
-      mac: inputValue,
-      nombre: sensores[index].nombre,
-      descripcion: sensores[index].descripcion,
-      estado: newEstado,
-      idusuario: sensores[index].idusuario,
-      idfinca: sensores[index].idfinca,
-    };
+        // Crear una copia del array de sensores y actualizar el estado del sensor en la posición correspondiente
+        const updatedSensores = [...sensores];
+        updatedSensores[index].estado = newEstado;
 
-    actualizarSensor(sensores[index].id, updatedFormData)
-    inputValue='';// Limpiar el campo de entrada
-    console.log("sensor:", updatedFormData);
-    Swal.fire({
-      icon: 'success',
-      title: '¡Éxito!',
-      text: 'El sensor se actualizó correctamente.',
-      confirmButtonText: 'Aceptar',
-    });
-  }
+        // Actualizamos el estado de los sensores para reflejar los cambios en la UI
+        setSensores(updatedSensores);
+        const updatedFormData = {
+          mac: inputValue,
+          nombre: sensores[index].nombre,
+          descripcion: sensores[index].descripcion,
+          estado: newEstado,
+          idusuario: sensores[index].idusuario,
+          idfinca: sensores[index].idfinca,
+        };
+
+        actualizarSensor(sensores[index].id, updatedFormData)
+        inputValue = '';// Limpiar el campo de entrada
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'El sensor se actualizó correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
+      }
     }
   };
 
-  
+
   function estadoSensores(estado, id, index) {
 
     let checkbox = <div className="form-check form-switch">
@@ -151,14 +186,11 @@ function SensoresAdmin() {
   }
 
 
-
-
-
-
+  
   return (
-    
+
     <div className="container mt-4">
-       
+
       <p>OBSERVANDO A:</p>
       <h1 className="text-center">{fincas.nombre}</h1>
       <h2>Id de finca: {id}</h2>
@@ -166,9 +198,9 @@ function SensoresAdmin() {
 
       <p>Administrador</p>
       {/*Boton para que el administrador pueda agregar un sensor */}
-      <Link to={`/agregar-sensor/${usuario.id}/${id}`}>
-        <button type="button" className="btn btn-success">Agregar Sensor</button>
-      </Link>
+
+      <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalInsertar">Agregar Sensor</button>
+
       <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
           <tr>
@@ -185,7 +217,7 @@ function SensoresAdmin() {
           {Array.isArray(sensores) && sensores.length > 0 ? (
             sensores.map((sensor, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{sensor.id}</td>
                 <td>{sensor.mac}</td>
                 <td>{sensor.nombre}</td>
                 <td>{sensor.descripcion}</td>
@@ -204,9 +236,45 @@ function SensoresAdmin() {
         </tbody>
       </table>
 
+      <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">INSERTAR SENSOR</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <label className="form-label">NOMBRE</label>
+                <input className="form-control" type="text"
+                  name="nombre" // (para la gestión de su valor en el estado)
+                  // Valor del input, vinculado con el estado
+                  onChange={handleChange} // Llama a la función que actualiza el estado cuando cambia el valor
+                  placeholder="Nombre"
+                  required />
 
-     
+                <label className="form-label">DESCRIPCION</label>
+                <input type="text"
+                  name="descripcion"
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Descripcion"
+                  required />
+
+
+                <div className="mt-3">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">AGREGAR</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+
   );
 }
 

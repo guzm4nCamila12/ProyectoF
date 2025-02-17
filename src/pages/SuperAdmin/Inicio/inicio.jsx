@@ -133,18 +133,42 @@ const handleChangeEditar = (e) => {
   })
   }
 
-  const obtenerRol = (id_rol) => {
+  const obtenerRol = (id_rol, id) => {
+    switch(id_rol) {
+      case 1:
+        return 'Sin fincas';
+      case 2:
+        const bloque = 
+        
+        <Link to={`/inicio-SuperAdmin/fincas-Admin/${id}`}>
+        <button className="btn btn-primary btn-sm m-1">
+          <i className="bi bi-eye-fill"></i>
+        </button>
+      </Link>
+
+        return bloque;
+      case 3:
+        return 'Sin fincas';
+      default:
+        return 'Desconocido'; 
+    }
+  };
+
+  const rol = (id_rol) => {
     switch(id_rol) {
       case 1:
         return 'SuperAdmin';
       case 2:
-        return 'Admin';
+        
+
+        return 'Administrador';
       case 3:
         return 'Alterno';
       default:
         return 'Desconocido'; 
     }
-  };
+  }
+
   
 
   
@@ -175,7 +199,7 @@ const handleChangeEditar = (e) => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.telefono}</td>
                 <td>{usuario.correo}</td>
-                <td>{obtenerRol(usuario.id_rol)}</td>
+                <td>{rol(usuario.id_rol)}</td>
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"
@@ -194,14 +218,9 @@ const handleChangeEditar = (e) => {
                    <i className="bi bi-trash3"></i>
                   </button>
                   </td>
-
-                  <td><Link to={`/lista-fincas/${usuario.id}`}>
-                    <button className="btn btn-primary btn-sm m-1">
-                      <i className="bi bi-eye-fill"></i>
-                    </button>
-                  </Link>
-
-                </td>
+                  <td>
+                  {obtenerRol(usuario.id_rol, usuario.id)}
+                  </td>
               </tr>
             ))
           ) : (
