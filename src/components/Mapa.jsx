@@ -50,7 +50,7 @@ const Mapa = ({setUbicacion}) => {
   return (
     <div>
       <h2>Seleccione una ubicación en el mapa</h2>
-      <MapContainer center={position} zoom={13} style={{ width: '100%', height: '500px' }}>
+      <MapContainer center={position} zoom={13} style={{ width: '100%', height: '400px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={position}>
           <Popup>

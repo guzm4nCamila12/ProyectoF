@@ -228,6 +228,10 @@ export default function ListaFincas() {
         
        
       </div>
+
+
+
+      
     </div>
   );
 }

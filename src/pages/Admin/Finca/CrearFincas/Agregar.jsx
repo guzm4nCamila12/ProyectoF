@@ -29,7 +29,7 @@ const Agregar = () => {
 
     acctionSucessful.fire({
       icon: "success",
-      title: "Finca insertada correctamente"
+      title: "Finca Insertada Correctamente"
     });
 
   };
@@ -61,6 +61,8 @@ const Agregar = () => {
         <button type="submit" className={styles.button} onClick={irAtras}>
           AGREGAR
         </button>
+
+        
       </form>
       
       <div>
