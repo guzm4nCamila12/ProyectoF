@@ -11,7 +11,12 @@ export default function editar() {
   const [nombreFinca, setNombreFinca] = useState("")
   const [fincas, setFincas] = useState({});
   const [ubicacion, setUbicacion] = useState({});
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+
+  const irAtras = () => {
+    navigate(-1)
+  }
 
   useEffect(() => {
 
@@ -71,7 +76,7 @@ export default function editar() {
         <p>Ubicacion Actual: {ubicacion.lat} <br /> {ubicacion.lng}</p> {/* Muestra la ubicación actual */}
         </div>
 
-        <button type="submit" className={styles.button}>
+        <button type="submit" className={styles.button} onClick={irAtras}>
           EDITAR
         </button>
       </form>
