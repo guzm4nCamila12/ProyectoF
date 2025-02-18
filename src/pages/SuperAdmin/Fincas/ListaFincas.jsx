@@ -53,59 +53,16 @@ export default function ListaFincas() {
     })
     }
 
-  //se limitan las acciones según el rol del usuario
-  function asignarRoles(id){
-    switch(id){
-      case 1:
-        //bloque para super admin
-        bloque= <div>
-        <p>Super Admin</p>
-        <table className="table table-bordered mt-3">
-        <thead className="bg-dark text-light text-center">
-            <tr>
-              <th>Fincas</th>
-              <th>Alternos</th>
-              <th>Sensor/es</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Si hay fincas, las mostramos; de lo contrario, mostramos un mensaje de que no hay datos */}
-            {Array.isArray(fincas) && fincas.length > 0 ? (
-              fincas.map((finca, index) => (
-                <tr key={index}>
-                  <td className='fs-4'>{finca.nombre}</td>
-                  <td>
-                  <Link to={`/alternos/${finca.id}`}>
-                    <button type="button" className="btn btn-warning">
-                    <i className="bi bi-people-fill"></i>
-                    </button>
+  
+ 
 
-                    </Link>
-
-                  </td>
-                  <td>
-                    <Link to={`/sensores-SuperAdmin/${finca.id}`}>
-                      <button type="button" className="btn btn-primary">
-                        <i className="bi bi-app-indicator"></i>
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-center">No hay datos</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-    </div>
-
-         return bloque;
-      case 2:
-            //bloque para administrador
-      bloque= <div>
-          <p>Administrador</p>
+  return (
+    <div>
+     
+      <div className="container mt-4">
+        <h1 className="text-center">{Usuario.nombre}</h1>
+        
+        <p>Administrador</p>
           <p>Tu Id: {Usuario.id}</p>
           <Link to={`/agregar-finca/${Usuario.id}`}>
           <button type="button" className="btn btn-secondary">Agregar Finca</button>
@@ -164,67 +121,6 @@ export default function ListaFincas() {
             )}
           </tbody>
         </table>
-      </div>
-
-         return bloque;
-      case 3:
-        //bloque para alterno
-        bloque= <div>
-          <p>Alterno</p>
-          <table className="table table-bordered mt-3">
-        <thead className="bg-dark text-light text-center">
-            <tr>
-              <th>Fincas</th>
-              <th>Alternos</th>
-              <th>Sensor/es</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Si hay fincas, las mostramos; de lo contrario, mostramos un mensaje de que no hay datos */}
-            {Array.isArray(fincas) && fincas.length > 0 ? (
-              fincas.map((finca, index) => (
-                <tr key={index}>
-                  <td className='fs-4'>{finca.nombre}</td>
-                  <td>
-                  <Link to={`/alternos/${finca.id}`}>
-                    <button type="button" className="btn btn-warning">
-                      <i className="bi bi-person-fill"></i>
-                    </button>
-                    </Link>
-                  </td>
-                  <td>
-                    <Link to={`/sensores-SuperAdmin/${finca.id}`}>
-                      <button type="button" className="btn btn-primary">
-                        <i className="bi bi-app-indicator"></i>
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-center">No hay datos</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-         return bloque;
-      default: return 'Sin Rol';
-    }
-  }
-
- 
- 
-
-  return (
-    <div>
-     
-      <div className="container mt-4">
-        <h1 className="text-center">{Usuario.nombre}</h1>
-        
-       {asignarRoles(Usuario.id_rol)  }
         
        
       </div>
