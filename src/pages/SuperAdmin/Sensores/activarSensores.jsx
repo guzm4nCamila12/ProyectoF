@@ -1,30 +1,22 @@
 import React from "react"; // Importación de React
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { actualizarSensor, getSensoresById, eliminarSensores } from "../../../services/Sensores/ApiSensores";
+import { getSensoresById } from "../../../services/Sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../services/Fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/Usuarios/ApiUsuarios";
 import { useState, useEffect } from "react"; // Importación de hooks de React
-<<<<<<< HEAD
-import { Link } from "react-router";
-import { acctionSucessful } from "../../../components/alertSuccesful";
-import Swal from 'sweetalert2';
-=======
-import { insertarSensor } from "../../../services/Sensores/ApiSensores";
+import { insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/Sensores/ApiSensores";
 import Swal from 'sweetalert2'
->>>>>>> 748ef689029567c057ac0078882ea0cc51811614
+import { acctionSucessful } from "../../../components/alertSuccesful";
 
 function activarSensores() {
   // Estado para almacenar la lista de sensores
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
-<<<<<<< HEAD
   const [editarSensor, setEditarSensor] = useState({nombre: "", descripcion: ""});
-  let bloque
-=======
   
   const [formData, setFormData] = useState({
       mac: null,
@@ -34,7 +26,6 @@ function activarSensores() {
       idusuario: "",
       idfinca: "",
     });
->>>>>>> 748ef689029567c057ac0078882ea0cc51811614
   //id es el id de la finca para traer todos los sensores de la finca
   
   const {id,idUser} = useParams();
@@ -96,7 +87,7 @@ useEffect(() => {
     console.log(fincas);
   };
 
-<<<<<<< HEAD
+
   const handleEditar = async (e) => {
     e.preventDefault();
       try{
@@ -114,56 +105,44 @@ useEffect(() => {
   
   
   };
-  
+
+
   const handleChangeEditar = (e) => {
-      setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
-  
-  };
-  const cargarDatosEdicion = (sensores) => {
-    setEditarSensor(sensores);
-  };
+    setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
 
-  const HandlEliminarSensor = (id) =>{
-      Swal.fire({
-        icon: 'error',
-        title: '¿Estas seguro?',
-        text: "¿Estas seguro de eliminar este sensor?",
-        showCancelButton: true,
-        confirmButtonColor: "red",
-        cancelButtonColor: "blue",
-        confirmButtonText: "si, eliminar ",
-        cancelButtonText: "cancelar "
-    }).then((result) => {
-      if(result.isConfirmed){
-  
-          try{
-            eliminarSensores(id)
-            setSensores(sensores.filter(sensor => sensor.id !== id));
-            acctionSucessful.fire({
-              icon: "success",
-              title: "Sensor eliminado correctamente"
-            });
-            
-  
-          }catch{
-            console.error("Error eliminando sensor:");
-          }
+};
+const cargarDatosEdicion = (sensores) => {
+  setEditarSensor(sensores);
+};
+
+const HandlEliminarSensor = (id) =>{
+  Swal.fire({
+    icon: 'error',
+    title: '¿Estas seguro?',
+    text: "¿Estas seguro de eliminar este sensor?",
+    showCancelButton: true,
+    confirmButtonColor: "red",
+    cancelButtonColor: "blue",
+    confirmButtonText: "si, eliminar ",
+    cancelButtonText: "cancelar "
+}).then((result) => {
+  if(result.isConfirmed){
+
+      try{
+        eliminarSensores(id)
+        setSensores(sensores.filter(sensor => sensor.id !== id));
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Sensor eliminado correctamente"
+        });
+        
+
+      }catch{
+        console.error("Error eliminando sensor:");
       }
-    })
-    }
-
-=======
->>>>>>> 748ef689029567c057ac0078882ea0cc51811614
-  // Función llamada al oprimir un botón
-  const oprimir = (e, a) => {
-    if (e) {
-      console.log(); // Aquí podrías agregar una lógica para realizar una acción cuando el checkbox esté activado
-    }
-  };
-
-  //asignar las acciones según el rol del usuario
-
-         
+  }
+})
+}
        
 
         
@@ -186,14 +165,14 @@ useEffect(() => {
         <thead className="bg-dark text-light text-center">
           <tr>
               
-            <th>N°</th>
+          <th>N°</th>
             <th>MAC</th>
             <th>NOMBRE</th>
             <th>DESCRIPCION</th>
-            <th>Inactivo/Activo</th>
             <th> EDITAR</th>
             <th> ELIMINAR</th>
             <th> VER INFO</th>
+            <th>Inactivo/Activo</th>
           </tr>
         </thead>
         <tbody>
@@ -205,19 +184,7 @@ useEffect(() => {
                 <td>{sensor.mac}</td>
                 <td>{sensor.nombre}</td>
                 <td>{sensor.descripcion}</td>
-                <td className="d-flex justify-content-centTELÉFONOer align-items-center">
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      checked={sensor.estado}
-                      id={`flexSwitchCheck${index}`}
-                      onChange={handleSwitch}
-                      disabled
-                    />
-                  </div>
-                </td>
+                
                 <td>
                 <button
                     className="btn btn-warning btn-sm m-1"
@@ -242,6 +209,19 @@ useEffect(() => {
                     </button>
                     </Link>
                   </td>
+                  <td className="d-flex justify-content-center align-items-center">
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      checked={sensor.estado}
+                      id={`flexSwitchCheck${index}`}
+                      onChange={handleSwitch}
+                      disabled
+                    />
+                  </div>
+                </td>
               </tr>
             ))
           ) : (
@@ -259,7 +239,49 @@ useEffect(() => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-<<<<<<< HEAD
+              <h5 className="modal-title">INSERTAR SENSOR</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <label className="form-label">NOMBRE</label>
+                <input className="form-control" type="text"
+                  name="nombre" // (para la gestión de su valor en el estado)
+                  // Valor del input, vinculado con el estado
+                  onChange={handleChange} // Llama a la función que actualiza el estado cuando cambia el valor
+                  placeholder="Nombre"
+                  required />
+
+                <label className="form-label">DESCRIPCION</label>
+                <input type="text"
+                  name="descripcion"
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Descripcion"
+                  required />
+
+
+                <div className="mt-3">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">AGREGAR</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div
+        className="modal fade"
+        id="modalEditar"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
               <h5 className="modal-title">EDITAR SENSOR</h5>
               <button
                 type="button"
@@ -302,39 +324,13 @@ useEffect(() => {
                   <button type="submit" className="btn btn-primary ms-2 " data-bs-dismiss="modal">
                     EDITAR
                   </button>
-=======
-              <h5 className="modal-title">INSERTAR SENSOR</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit}>
-                <label className="form-label">NOMBRE</label>
-                <input className="form-control" type="text"
-                  name="nombre" // (para la gestión de su valor en el estado)
-                  // Valor del input, vinculado con el estado
-                  onChange={handleChange} // Llama a la función que actualiza el estado cuando cambia el valor
-                  placeholder="Nombre"
-                  required />
-
-                <label className="form-label">DESCRIPCION</label>
-                <input type="text"
-                  name="descripcion"
-                  onChange={handleChange}
-                  className="form-control"
-                  placeholder="Descripcion"
-                  required />
-
-
-                <div className="mt-3">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">AGREGAR</button>
->>>>>>> 748ef689029567c057ac0078882ea0cc51811614
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 }

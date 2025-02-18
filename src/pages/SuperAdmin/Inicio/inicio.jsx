@@ -220,13 +220,7 @@ const handleChangeEditar = (e) => {
                   </td>
 
 
-                  <td><Link to={`/inicio-SuperAdmin/fincas-Admin/${usuario.id}`}>
-                    <button className="btn btn-primary btn-sm m-1">
-                      <i className="bi bi-eye-fill"></i>
-                    </button>
-                  </Link>
-
-                </td>
+                  
 
                   <td>
                   {obtenerRol(usuario.id_rol, usuario.id)}
