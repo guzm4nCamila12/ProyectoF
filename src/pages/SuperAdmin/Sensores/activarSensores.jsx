@@ -72,15 +72,21 @@ useEffect(() => {
       const handleSubmit = (e) => {
         e.preventDefault();
         
-        insertarSensor(formData);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: 'El sensor se actualizó correctamente.',
-          confirmButtonText: 'Aceptar',
-        });
-        console.log("Datos enviados:", formData);
+        insertarSensor(formData)
+        .then((nuevoSensor) => {
+          // Aquí, 'nuevoSensor' sería la respuesta de la API con el sensor insertado (ajusta esto según lo que devuelva tu API)
+          setSensores((prevSensores) => [...prevSensores, nuevoSensor]);
+    
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'El sensor se agregó correctamente.',
+            confirmButtonText: 'Aceptar',
+          });
+          console.log("Datos enviados:", formData);
+        })
       };
+      
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
   const handleSwitch = (event) => {
     setCheck(event.target.checked); // Actualiza el estado 'check' con el valor del checkbox
