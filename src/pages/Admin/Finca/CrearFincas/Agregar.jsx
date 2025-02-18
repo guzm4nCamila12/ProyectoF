@@ -4,12 +4,17 @@ import Mapa from "../../../../components/Mapa";//Importamos el componente que co
 import { insertarFinca } from "../../../../services/Fincas/ApiFincas";//Importamos el metodo insertarFinca de la ApiFincas
 import { acctionSucessful } from "../../../../components/alertSuccesful";//Importamos el mensaje de registro de finca exitoso
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 
 const Agregar = () => {
   const { id } = useParams();
   const [nombre, setNombre] = useState("")
   const [ubicacion, setUbicacion] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 });
+  const navigate = useNavigate();
+
+  const irAtras = () =>{
+    navigate(-1)
+  }
   
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
@@ -19,10 +24,8 @@ const Agregar = () => {
       nombre,
       ubicacion
     };
-    console.log("nueva:", nuevaFinca);
 
     insertarFinca(nuevaFinca)
-    .then(data => console.log(data))
 
     acctionSucessful.fire({
       icon: "success",
@@ -54,7 +57,8 @@ const Agregar = () => {
           <Mapa setUbicacion={setUbicacion} /> {/* Mapa que actualiza la ubicación */}
         </div>
         
-        <button type="submit" className={styles.button}>
+
+        <button type="submit" className={styles.button} onClick={irAtras}>
           AGREGAR
         </button>
       </form>
