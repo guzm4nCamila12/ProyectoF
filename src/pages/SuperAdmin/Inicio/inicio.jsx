@@ -71,7 +71,7 @@ const Inicio = () => {
 
   // EDITAR USUARIO
   const handleEditar = async (e) => {
-    e.preventDefaEDITARult();
+    e.preventDefault();
     try{
       actualizarUsuario(editarUsuario.id,editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
@@ -228,7 +228,7 @@ const handleChangeEditar = (e) => {
               </tr>
             ))
           ) : (
-            <tr>onChange={handleChangeEditar}
+            <tr>
               <td colSpan="5" className="text-center">No hay datos</td>
             </tr>
           )}
