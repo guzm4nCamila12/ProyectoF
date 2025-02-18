@@ -57,20 +57,27 @@ const Inicio = () => {
         id_rol: Number(3),
         id_finca: Number(id)
     };
-    console.log(nuevo)
+    //console.log(nuevo)
     try {
       //Llama a la funcion insertarUsuario importada de la API
       const data = await insertarUsuario(
         nuevo
       );
-      if (data) {
-        setUsuarios([...usuarios, data]);
-        setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+      if (data ) {
+        if(usuarios=== null){
+          setUsuarios([data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+          
+        }else{
+          setUsuarios([...usuarios, data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+        }
 
         acctionSucessful.fire({
           icon: "success",
           title: "Usuario agregado correctamente"
         });
+        
 
       }
     } catch (error) {
