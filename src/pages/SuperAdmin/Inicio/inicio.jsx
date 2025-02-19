@@ -3,29 +3,32 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
-import {  Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
+import { Modal } from "bootstrap";
 
-  
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: ""});
-  
-  
- 
-  
+  const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
+
+  const navigate = useNavigate();
+
+  const irAtras = () => {
+    navigate()
+
+  }
   // DATOS DE PRUEBA
   useEffect(() => {
 
     getUsuarios()
-    .then(data => setUsuarios(data))
-    .catch(error => console.error('Error: ',error))
+      .then(data => setUsuarios(data))
+      .catch(error => console.error('Error: ', error))
 
 
-    
+
   }, []);
 
   // Manejo de cambios en los formularios
@@ -36,16 +39,20 @@ const Inicio = () => {
 
 
 
+
+
   // INSERTAR USUARIO
   const handleInsertar = async (e) => {
 
     e.preventDefault();
-    const nuevo = { 
-        nombre: nuevoUsuario.nombre, 
-        telefono: nuevoUsuario.telefono, 
-        correo: nuevoUsuario.correo, 
-        clave: nuevoUsuario.clave, 
-        id_rol: Number(nuevoUsuario.id_rol)
+    
+    
+    const nuevo = {
+      nombre: nuevoUsuario.nombre,
+      telefono: nuevoUsuario.telefono,
+      correo: nuevoUsuario.correo,
+      clave: nuevoUsuario.clave,
+      id_rol: Number(nuevoUsuario.id_rol)
     };
     try {
       const data = await insertarUsuario(
@@ -61,37 +68,42 @@ const Inicio = () => {
         });
 
       }
+      const modalElement = document.getElementById("modalInsertar");
+      const modal = new window.bootstrap.Modal(modalElement);  // Accedemos al Modal de Bootstrap
+      modal.hide(); 
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
-  
 
-};
+
+  };
+
+
 
 
   // EDITAR USUARIO
   const handleEditar = async (e) => {
     e.preventDefault();
-    try{
-      actualizarUsuario(editarUsuario.id,editarUsuario)
+    try {
+      actualizarUsuario(editarUsuario.id, editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         icon: "success",
         title: "Usuario editado correctamente"
       });
 
-    }catch(error){
+    } catch (error) {
       console.error(error)
     }
 
 
 
-};
+  };
 
-const handleChangeEditar = (e) => {
+  const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
 
-};
+  };
 
 
 
@@ -104,7 +116,7 @@ const handleChangeEditar = (e) => {
 
 
   //ELIMINAR UN SUSUARIO
-  const HandlEliminarUsuario = (id) =>{
+  const HandlEliminarUsuario = (id) => {
     Swal.fire({
       icon: 'error',
       title: '¿Estas seguro?',
@@ -114,64 +126,64 @@ const handleChangeEditar = (e) => {
       cancelButtonColor: "blue",
       confirmButtonText: "si, eliminar ",
       cancelButtonText: "cancelar "
-  }).then((result) => {
-    if(result.isConfirmed){
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-        try{
+        try {
           eliminarUsuario(id)
           setUsuarios(usuarios.filter(usuario => usuario.id !== id));
           acctionSucessful.fire({
             icon: "success",
             title: "Usuario eliminado correctamente"
           });
-          
 
-        }catch{
+
+        } catch {
           console.error("Error eliminando usuario:");
         }
-    }
-  })
+      }
+    })
   }
 
   const obtenerRol = (id_rol, id) => {
-    switch(id_rol) {
+    switch (id_rol) {
       case 1:
         return 'Sin fincas';
       case 2:
-        const bloque = 
-        
-        <Link to={`/inicio-SuperAdmin/fincas-Admin/${id}`}>
-        <button className="btn btn-primary btn-sm m-1">
-          <i className="bi bi-eye-fill"></i>
-        </button>
-      </Link>
+        const bloque =
+
+          <Link to={`/inicio-SuperAdmin/fincas-Admin/${id}`}>
+            <button className="btn btn-primary btn-sm m-1">
+              <i className="bi bi-eye-fill"></i>
+            </button>
+          </Link>
 
         return bloque;
       case 3:
         return 'Sin fincas';
       default:
-        return 'Desconocido'; 
+        return 'Desconocido';
     }
   };
 
   const rol = (id_rol) => {
-    switch(id_rol) {
+    switch (id_rol) {
       case 1:
         return 'SuperAdmin';
       case 2:
-        
+
 
         return 'Administrador';
       case 3:
         return 'Alterno';
       default:
-        return 'Desconocido'; 
+        return 'Desconocido';
     }
   }
 
-  
 
-  
+
+
 
 
   return (
@@ -201,7 +213,7 @@ const handleChangeEditar = (e) => {
                 <td>{usuario.correo}</td>
                 <td>{rol(usuario.id_rol)}</td>
                 <td>
-                <button
+                  <button
                     className="btn btn-warning btn-sm m-1"
                     data-bs-toggle="modal"
                     data-bs-target="#modalEditar"
@@ -209,22 +221,22 @@ const handleChangeEditar = (e) => {
                   >
                     <i className="bi bi-pencil-square"></i>
                   </button>
-                  </td>
+                </td>
 
-                  <td><button
-                    className="btn btn-danger btn-sm m-1"
-                    onClick={() => HandlEliminarUsuario(usuario.id)}
-                  >
-                   <i className="bi bi-trash3"></i>
-                  </button>
-                  </td>
+                <td><button
+                  className="btn btn-danger btn-sm m-1"
+                  onClick={() => HandlEliminarUsuario(usuario.id)}
+                >
+                  <i className="bi bi-trash3"></i>
+                </button>
+                </td>
 
 
-                  
 
-                  <td>
+
+                <td>
                   {obtenerRol(usuario.id_rol, usuario.id)}
-                  </td>
+                </td>
               </tr>
             ))
           ) : (
@@ -262,8 +274,19 @@ const handleChangeEditar = (e) => {
                 <label className="form-label">CLAVE</label>
                 <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
 
-                <label className="form-label">ID ROL</label>
-                <input className="form-control" type="text" name="id_rol" value={nuevoUsuario.id_rol} onChange={handleChange} required />
+                <label className="form-label">ROL</label>
+                <select
+                  className="form-control"
+                  name="id_rol"
+                  
+                  value={nuevoUsuario.id_rol}
+                  onChange={handleChange}
+                  required
+                > 
+                <option value="">----</option>
+                  <option value="2">Administrador</option>
+                  <option value="1">Super Admin</option>
+                </select>
 
 
                 <div className="mt-3">
@@ -312,7 +335,7 @@ const handleChangeEditar = (e) => {
         </div>
       </div>
 
-      
+
 
 
 

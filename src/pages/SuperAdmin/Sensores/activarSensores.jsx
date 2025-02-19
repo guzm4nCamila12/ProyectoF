@@ -69,13 +69,28 @@ useEffect(() => {
       };
     
       // Maneja el envío del formulario
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
         
-        insertarSensor(formData)
-        .then((nuevoSensor) => {
-          // Aquí, 'nuevoSensor' sería la respuesta de la API con el sensor insertado (ajusta esto según lo que devuelva tu API)
-          setSensores((prevSensores) => [...prevSensores, nuevoSensor]);
+        insertarSensor(formData).then((response) => {
+          if (response ) {
+                  if(sensores=== null){
+                    setSensores([response]);
+                    
+                  }else{
+                    setSensores([...sensores, response]);
+                  }
+          
+                  acctionSucessful.fire({
+                    icon: "success",
+                    title: "Usuario agregado correctamente"
+                  });
+                  
+          
+                }
+
+        });
+      
     
           Swal.fire({
             icon: 'success',
@@ -84,7 +99,7 @@ useEffect(() => {
             confirmButtonText: 'Aceptar',
           });
           console.log("Datos enviados:", formData);
-        })
+     
       };
       
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
