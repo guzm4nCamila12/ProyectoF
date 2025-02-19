@@ -14,6 +14,7 @@ import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
 import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
 import FincasAdmin from "../pages/SuperAdmin/verAdmin/FincasAdmin";
 import SensoresAdmin from "../pages/SuperAdmin/verAdmin/SensoresAdmin";
+import Sensores from "../pages/Alterno/Inicio/Sensores";
 
 
 
@@ -41,7 +42,7 @@ function App() {
 
         <Route path="/lista-fincas/:id" element={<ListaFincas />} />
         <Route path="/alternos/:id" element={<TablaAlternos/>}/>
-
+        <Route path="/sensores-alterno/:id" element={<Sensores/>}/>
 
 
       </Routes>
