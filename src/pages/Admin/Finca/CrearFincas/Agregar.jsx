@@ -1,43 +1,55 @@
-import React, { useState } from "react"; // Importación de React y useState para manejo de estado
+import React, { useState } from "react";
 import styles from "./agregar.module.css";
-import Mapa from "../../../../components/Mapa";//Importamos el componente que contiene el mapa
-import { insertarFinca } from "../../../../services/Fincas/ApiFincas";//Importamos el metodo insertarFinca de la ApiFincas
-import { acctionSucessful } from "../../../../components/alertSuccesful";//Importamos el mensaje de registro de finca exitoso
+import Mapa from "../../../../components/Mapa";
+import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
+import { acctionSucessful } from "../../../../components/alertSuccesful";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router";
 
 const Agregar = () => {
   const { id } = useParams();
-  const [nombre, setNombre] = useState("")
-  const [ubicacion, setUbicacion] = useState({ lat: 4.8088736064112, lng: -75.68756103515626 });
+  const [nombre, setNombre] = useState("");
+  const [ubicacion, setUbicacion] = useState({});
   const navigate = useNavigate();
 
-  const irAtras = () =>{
-    navigate(-1)
-  }
-  
-  // Maneja el envío del formulario
+  const irAtras = () => {
+    navigate(-1);
+  };
+
+  // Maneja el envío del formulario con validación
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    const nuevaFinca = { 
+    e.preventDefault();
+    
+    // Validación de campos
+    if (!nombre || !ubicacion.lat || !ubicacion.lng) {
+      acctionSucessful.fire({
+        icon: "error",
+        title: "Debe ingresar un nombre y seleccionar una ubicación",
+      });
+      return; // Detener el envío del formulario
+    }
+
+    const nuevaFinca = {
       idUsuario: Number(id),
       nombre,
-      ubicacion
+      ubicacion,
     };
 
-    insertarFinca(nuevaFinca)
+    insertarFinca(nuevaFinca);
 
     acctionSucessful.fire({
       icon: "success",
-      title: "Finca Insertada Correctamente"
+      title: "Finca Insertada Correctamente",
     });
 
+    // Si la inserción fue exitosa, proceder a la navegación
+    irAtras(); 
   };
 
   return (
-    <div className={styles.container}> 
-      <h3 className={styles.title}>AGREGAR FINCA</h3> 
-      
+    <div className={styles.container}>
+      <h3 className={styles.title}>AGREGAR FINCA</h3>
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label className={styles.label}>Ingrese su nombre:</label>
@@ -46,27 +58,28 @@ const Agregar = () => {
             name="nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className={styles.input} 
+            className={styles.input}
             placeholder="Nombre"
-            required 
+            autoComplete="off"
           />
         </div>
 
         <div>
-          <h1><i className="bi bi-geo-alt"></i></h1>
-          <Mapa setUbicacion={setUbicacion} /> {/* Mapa que actualiza la ubicación */}
+          <h1>
+            <i className="bi bi-geo-alt"></i>
+          </h1>
+          <Mapa setUbicacion={setUbicacion} />
         </div>
-        
 
-        <button type="submit" className={styles.button} onClick={irAtras}>
+        <button type="submit" className={styles.button}>
           AGREGAR
         </button>
-
-        
       </form>
-      
+
       <div>
-        <p>Ubicacion Actual: {ubicacion.lat}, {ubicacion.lng}</p> {/* Muestra la ubicación actual */}
+        <p>
+          Ubicación Actual:{ubicacion.lat} <br/> {ubicacion.lng}
+        </p>
       </div>
     </div>
   );
