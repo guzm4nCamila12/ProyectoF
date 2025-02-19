@@ -27,7 +27,7 @@ function SensoresAdmin() {
   const [estado, setEstado] = useState([]);
   let inputValue = '';
   const { id, idUser } = useParams();
-const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     mac: null,
     nombre: "",
     descripcion: "",
@@ -57,20 +57,20 @@ const [formData, setFormData] = useState({
   }, [id, idUser]);
 
   //se inicializan los campos luego de hacer todas las consultas necesarias
-   useEffect(() => {
-      if (usuario && fincas) {
-        setFormData({
-          mac: null, 
-          nombre: "",
-          descripcion: "",
-          estado: false,
-          idusuario: usuario.id, 
-          idfinca: fincas.id,    
-        });
-      }
-    }, [usuario, fincas]); 
+  useEffect(() => {
+    if (usuario && fincas) {
+      setFormData({
+        mac: null,
+        nombre: "",
+        descripcion: "",
+        estado: false,
+        idusuario: usuario.id,
+        idfinca: fincas.id,
+      });
+    }
+  }, [usuario, fincas]);
 
-// Maneja los cambios de los campos del formulario
+  // Maneja los cambios de los campos del formulario
   const handleChange = (e) => {
     // Se actualiza el estado del formulario con el valor correspondiente
     setFormData({
@@ -82,9 +82,32 @@ const [formData, setFormData] = useState({
   // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    insertarSensor(formData);
-  
+
+    insertarSensor(formData).then((response) => {
+      if (response) {
+        if (sensores === null) {
+          setSensores([response]);
+
+        } else {
+          setSensores([...sensores, response]);
+        }
+
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Usuario agregado correctamente"
+        });
+
+
+      }
+
+    })
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'El sensor se agregó correctamente.',
+      confirmButtonText: 'Aceptar',
+    });
+
     console.log("Datos enviados:", formData);
   };
   const showSwal = () => {
@@ -186,7 +209,7 @@ const [formData, setFormData] = useState({
   }
 
 
-  
+
   return (
 
     <div className="container mt-4">
