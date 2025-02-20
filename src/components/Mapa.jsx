@@ -39,9 +39,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   return (
     <div>
       <h2>Seleccione una ubicación en el mapa</h2>
+
       {/*Muestra el mapa interactivo usando el componente MapContainer,se le define un zoom 
       al mapa y se centra en la posicion definida por position*/}
       <MapContainer center={position} zoom={5} style={{ width: '100%', height: '400px' }}>
+
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {/*Marcador en el mapa que indica la ubicacion seleccionada*/}
         <Marker position={position}>

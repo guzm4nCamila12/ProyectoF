@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from "react-router"
 import { getUsuarioById } from '../../../services/Usuarios/ApiUsuarios';
 import { getFincasById } from '../../../services/Fincas/ApiFincas';
-
+import BotonAtras from '../../../components/BotonAtras';
 export default function FincasAdmin() {
   const { id } = useParams();
   // Estado para almacenar la lista de fincas
@@ -33,6 +33,7 @@ export default function FincasAdmin() {
     <div>
      
       <div className="container mt-4">
+        <BotonAtras /> 
       <p>OBSERVANDO A:</p>
         <h1 className="text-center">{Usuario.nombre}</h1>
         

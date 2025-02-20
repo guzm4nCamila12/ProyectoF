@@ -10,25 +10,25 @@ import { useState, useEffect } from "react"; // Importación de hooks de React
 import { insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/Sensores/ApiSensores";
 import Swal from 'sweetalert2'
 import { acctionSucessful } from "../../../components/alertSuccesful";
-
+import BotonAtras from "../../../components/BotonAtras";
 function activarSensores() {
   // Estado para almacenar la lista de sensores
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
-  const [editarSensor, setEditarSensor] = useState({nombre: "", descripcion: ""});
-  
+  const [editarSensor, setEditarSensor] = useState({ nombre: "", descripcion: "" });
+
   const [formData, setFormData] = useState({
-      mac: null,
-      nombre: "",
-      descripcion: "",
-      estado: false,
-      idusuario: "",
-      idfinca: "",
-    });
+    mac: null,
+    nombre: "",
+    descripcion: "",
+    estado: false,
+    idusuario: "",
+    idfinca: "",
+  });
   //id es el id de la finca para traer todos los sensores de la finca
-  
-  const {id,idUser} = useParams();
+
+  const { id, idUser } = useParams();
 
   // Estado para controlar si el checkbox está activado o no
   const [check, setCheck] = useState(false);
@@ -43,44 +43,65 @@ function activarSensores() {
     getUsuarioById(idUser).then((data) => setUsuario(data));
 
     getFincasByIdFincas(id).then((data) => setFincas(data));
+    
   }, []);
 
+  useEffect(() => {
+    if (usuario && fincas) {
+      setFormData({
+        mac: null,
+        nombre: "",
+        descripcion: "",
+        estado: false,
+        idusuario: usuario.id,
+        idfinca: fincas.id,
+      });
+    }
+  }, [usuario, fincas]);
 
-useEffect(() => {
-      if (usuario && fincas) {
-        setFormData({
-          mac: null, 
-          nombre: "",
-          descripcion: "",
-          estado: false,
-          idusuario: usuario.id, 
-          idfinca: fincas.id,    
+  // Maneja los cambios de los campos del formulario
+  const handleChange = (e) => {
+    // Se actualiza el estado del formulario con el valor correspondiente
+    setFormData({
+      ...formData, // Se preservan los valores actuales de formData
+      [e.target.name]: e.target.value, // Se actualiza el campo que cambia
+    });
+  };
+
+  // Maneja el envío del formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    insertarSensor(formData).then((response) => {
+      if (response) {
+        if (sensores === null) {
+          setSensores([response]);
+
+        } else {
+          setSensores([...sensores, response]);
+        }
+
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Usuario agregado correctamente"
         });
+
+
       }
-    }, [usuario, fincas]); 
 
-    // Maneja los cambios de los campos del formulario
-      const handleChange = (e) => {
-        // Se actualiza el estado del formulario con el valor correspondiente
-        setFormData({
-          ...formData, // Se preservan los valores actuales de formData
-          [e.target.name]: e.target.value, // Se actualiza el campo que cambia
-        });
-      };
-    
-      // Maneja el envío del formulario
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        insertarSensor(formData);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: 'El sensor se actualizó correctamente.',
-          confirmButtonText: 'Aceptar',
-        });
-        console.log("Datos enviados:", formData);
-      };
+    });
+
+
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'El sensor se agregó correctamente.',
+      confirmButtonText: 'Aceptar',
+    });
+    console.log("Datos enviados:", formData);
+
+  };
+
   // Función que maneja el cambio del estado del checkbox (activar/desactivar)
   const handleSwitch = (event) => {
     setCheck(event.target.checked); // Actualiza el estado 'check' con el valor del checkbox
@@ -90,82 +111,76 @@ useEffect(() => {
 
   const handleEditar = async (e) => {
     e.preventDefault();
-      try{
-        actualizarSensor(editarSensor.id,editarSensor)
-        setSensores(sensores.map(u => u.id === editarSensor.id ? editarSensor : u));
-        acctionSucessful.fire({
-          icon: "success",
-          title: "Sensor editado correctamente"
-        });
-  
-      }catch(error){
-        console.error(error)
-      }
-  
-  
-  
+    try {
+      actualizarSensor(editarSensor.id, editarSensor)
+      setSensores(sensores.map(u => u.id === editarSensor.id ? editarSensor : u));
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Sensor editado correctamente"
+      });
+
+    } catch (error) {
+      console.error(error)
+    }
+
+
+
   };
 
 
   const handleChangeEditar = (e) => {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
 
-};
-const cargarDatosEdicion = (sensores) => {
-  setEditarSensor(sensores);
-};
+  };
+  const cargarDatosEdicion = (sensores) => {
+    setEditarSensor(sensores);
+  };
 
-const HandlEliminarSensor = (id) =>{
-  Swal.fire({
-    icon: 'error',
-    title: '¿Estas seguro?',
-    text: "¿Estas seguro de eliminar este sensor?",
-    showCancelButton: true,
-    confirmButtonColor: "red",
-    cancelButtonColor: "blue",
-    confirmButtonText: "si, eliminar ",
-    cancelButtonText: "cancelar "
-}).then((result) => {
-  if(result.isConfirmed){
+  const HandlEliminarSensor = (id) => {
+    Swal.fire({
+      icon: 'error',
+      title: '¿Estas seguro?',
+      text: "¿Estas seguro de eliminar este sensor?",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      cancelButtonColor: "blue",
+      confirmButtonText: "si, eliminar ",
+      cancelButtonText: "cancelar "
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-      try{
-        eliminarSensores(id)
-        setSensores(sensores.filter(sensor => sensor.id !== id));
-        acctionSucessful.fire({
-          icon: "success",
-          title: "Sensor eliminado correctamente"
-        });
-        
+        try {
+          eliminarSensores(id)
+          setSensores(sensores.filter(sensor => sensor.id !== id));
+          acctionSucessful.fire({
+            icon: "success",
+            title: "Sensor eliminado correctamente"
+          });
 
-      }catch{
-        console.error("Error eliminando sensor:");
+
+        } catch {
+          console.error("Error eliminando sensor:");
+        }
       }
+    })
   }
-})
-}
-       
-
-        
-
-
-
-
 
 
   return (
     <div className="container mt-4">
       <h1 className="text-center">{fincas.nombre}</h1>
+      <BotonAtras /> 
       <h2>Id de finca: {id}</h2>
       <p>Administrador</p>
-          {/*Boton para que el administrador pueda agregar un sensor */}
-          
-          <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalInsertar">Agregar Sensor</button>
-          
-          <table className="table table-bordered mt-3">
+      {/*Boton para que el administrador pueda agregar un sensor */}
+
+      <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalInsertar">Agregar Sensor</button>
+
+      <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
           <tr>
-              
-          <th>N°</th>
+
+            <th>N°</th>
             <th>MAC</th>
             <th>NOMBRE</th>
             <th>DESCRIPCION</th>
@@ -184,9 +199,9 @@ const HandlEliminarSensor = (id) =>{
                 <td>{sensor.mac}</td>
                 <td>{sensor.nombre}</td>
                 <td>{sensor.descripcion}</td>
-                
+
                 <td>
-                <button
+                  <button
                     className="btn btn-warning btn-sm m-1"
                     data-bs-toggle="modal"
                     data-bs-target="#modalEditar"
@@ -194,22 +209,22 @@ const HandlEliminarSensor = (id) =>{
                   >
                     <i className="bi bi-pencil-square"></i>
                   </button>
-                  </td>
-                  <td><button
-                    className="btn btn-danger btn-sm m-1"
-                    onClick={() => HandlEliminarSensor(sensor.id)}
-                  >
-                   <i className="bi bi-trash3"></i>
-                  </button>
-                  </td>
-                  <td>
-                    <Link to={`/datos-sensores`}>
-                  <button className="btn btn-primary btn-sm m-1">
+                </td>
+                <td><button
+                  className="btn btn-danger btn-sm m-1"
+                  onClick={() => HandlEliminarSensor(sensor.id)}
+                >
+                  <i className="bi bi-trash3"></i>
+                </button>
+                </td>
+                <td>
+                  <Link to={`/datos-sensores`}>
+                    <button className="btn btn-primary btn-sm m-1">
                       <i className="bi bi-eye-fill"></i>
                     </button>
-                    </Link>
-                  </td>
-                  <td className="d-flex justify-content-center align-items-center">
+                  </Link>
+                </td>
+                <td className="d-flex justify-content-center align-items-center">
                   <div className="form-check form-switch">
                     <input
                       className="form-check-input"
@@ -233,7 +248,7 @@ const HandlEliminarSensor = (id) =>{
           )}
         </tbody>
       </table>
-     
+
 
       <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
         <div className="modal-dialog">

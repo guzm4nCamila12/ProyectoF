@@ -4,7 +4,7 @@ import Mapa from "../../../../components/Mapa";
 import { actualizarFinca, getFincasByIdFincas } from "../../../../services/Fincas/ApiFincas";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
-
+import BotonAtras from "../../../../components/BotonAtras";
 export default function editar() {
   const { id } = useParams();
   const [nombreFinca, setNombreFinca] = useState("");
@@ -79,12 +79,19 @@ export default function editar() {
   };
 
   return (
+
     <div>
       <div className="d-flex text-start">
         <button className="btn btn-success me-auto" onClick={irAtras}><i class="bi bi-arrow-left"></i></button>
       </div>
       <div className={styles.container}>
         <h3 className={styles.title}>EDITAR FINCA : {fincas.nombre}</h3>
+
+    <div className={styles.container}>
+
+      <BotonAtras />
+      <h3 className={styles.title}>EDITAR FINCA {fincas.nombre}</h3>
+
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
@@ -109,15 +116,16 @@ export default function editar() {
               <p>Cargando mapa...</p>
             )}
           </div>
-
           <div>
             <p>Ubicación Actual: {ubicacion ? `${ubicacion.lat}, ${ubicacion.lng}` : "Cargando..."}</p>
           </div>
+
 
           <button type="submit" className={styles.button}>
             EDITAR
           </button>
         </form>
+      </div>
       </div>
     </div>
   );
