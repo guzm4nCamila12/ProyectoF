@@ -43,8 +43,8 @@ function activarSensores() {
     getUsuarioById(idUser).then((data) => setUsuario(data));
 
     getFincasByIdFincas(id).then((data) => setFincas(data));
+    
   }, []);
-
 
   useEffect(() => {
     if (usuario && fincas) {
