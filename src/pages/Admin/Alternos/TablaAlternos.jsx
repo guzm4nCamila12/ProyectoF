@@ -9,7 +9,7 @@ import {  Link } from 'react-router-dom';
 //Importa los metodos de services/apiUsuarios
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import BotonAtras from "../../../components/BotonAtras";
+
   
 const Inicio = () => {
     const { id } = useParams();
@@ -46,85 +46,68 @@ const Inicio = () => {
 
   // Funcion insertar usuario
   //Se  Ejecuta cuando el formulario para insertar e enviado 
-  // Validación antes de insertar usuario
   const handleInsertar = async (e) => {
-    e.preventDefault(); // Evita la recarga de la página
-  
-    // Obtener los valores de los campos
-    const { nombre, telefono, correo, clave } = nuevoUsuario;
-  
-    // Validar que todos los campos estén llenos
-    if (!nombre || !telefono || !correo || !clave) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Por favor, llena todos los campos antes de enviar.',
-      });
-      return; // No cerramos el modal si la validación falla
-    }
-  
-    const nuevo = {
-      nombre,
-      telefono,
-      correo,
-      clave,
-      id_rol: Number(3),
-      id_finca: Number(id),
+
+    e.preventDefault();//Evita la recarga de la pagina
+    const nuevo = { 
+        nombre: nuevoUsuario.nombre, 
+        telefono: nuevoUsuario.telefono, 
+        correo: nuevoUsuario.correo, 
+        clave: nuevoUsuario.clave, 
+        id_rol: Number(3),
+        id_finca: Number(id)
     };
-  
+    //console.log(nuevo)
     try {
-      // Llama a la función insertarUsuario
-      const data = await insertarUsuario(nuevo);
-      if (data) {
-        setUsuarios(usuarios ? [...usuarios, data] : [data]);
-        setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  
+      //Llama a la funcion insertarUsuario importada de la API
+      const data = await insertarUsuario(
+        nuevo
+      );
+      if (data ) {
+        if(usuarios=== null){
+          setUsuarios([data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+          
+        }else{
+          setUsuarios([...usuarios, data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+        }
+
         acctionSucessful.fire({
           icon: "success",
           title: "Usuario agregado correctamente"
         });
-  
-        // Cerrar el modal manualmente
-        const modalElement = document.getElementById('modalInsertar');
-        const modal = new bootstrap.Modal(modalElement);
-        modal.hide(); // Cierra el modal
+        
+
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
-  };
   
+
+};
+
 
   //Funcion editar usuario
   //Se ejecuta cuando el formulario de edicion es enviado
-  // Validación antes de editar usuario
-const handleEditar = async (e) => {
-  e.preventDefault();
+  const handleEditar = async (e) => {
+    e.preventDefault();
+    try{
+       //Llama a la funcion actualizarUsuario importada de la API
+      actualizarUsuario(editarUsuario.id,editarUsuario)
+      setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Usuario editado correctamente"
+      });
 
-  // Validar que al menos un campo haya sido modificado
-  if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Campos incompletos',
-      text: 'Por favor, llena todos los campos antes de editar.',
-    });
-    return; // No cerrar el modal
-  }
+    }catch(error){
+      console.error(error)
+    }
 
-  try {
-    // Llama a la función actualizarUsuario
-    await actualizarUsuario(editarUsuario.id, editarUsuario);
-    setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
 
-    acctionSucessful.fire({
-      icon: "success",
-      title: "Usuario editado correctamente"
-    });
-  } catch (error) {
-    console.error(error);
-  }
+
 };
-
 
 //Manejo de cambios en el formulario de Edicion
 const handleChangeEditar = (e) => {
@@ -180,7 +163,7 @@ const handleChangeEditar = (e) => {
   return (
     <div className="container mt-4">
       <h1 className="text-center">ALTERNOS REGISTRADOS</h1>
-    <BotonAtras /> 
+
       <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
           <tr>
@@ -234,74 +217,37 @@ const handleChangeEditar = (e) => {
         INSERTAR
       </button>
 
-      {/* MODAL INSERTAR USUARIO */}
-    <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">INSERTAR ALTERNO</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div className="modal-body">
-            <form onSubmit={handleInsertar}>
-              <label className="form-label">NOMBRE</label>
-              <input 
-                className="form-control" 
-                type="text" 
-                name="nombre" 
-                value={nuevoUsuario.nombre} 
-                onChange={handleChange} 
-              />
-              
-              <label className="form-label">TELEFONO</label>
-              <input 
-                className="form-control" 
-                type="text" 
-                name="telefono" 
-                value={nuevoUsuario.telefono} 
-                onChange={handleChange} 
-              />
-              
-              <label className="form-label">CORREO</label>
-              <input 
-                className="form-control" 
-                type="text" 
-                name="correo" 
-                value={nuevoUsuario.correo} 
-                onChange={handleChange} 
-              />
-              
-              <label className="form-label">CLAVE</label>
-              <input 
-                className="form-control" 
-                type="text" 
-                name="clave" 
-                value={nuevoUsuario.clave} 
-                onChange={handleChange} 
-              />
+      {/* MODAL INSERTAR USURIO*/}
+      <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">INSERTAR ALTERNO</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleInsertar}>
+                <label className="form-label">NOMBRE</label>
+                <input className="form-control" type="text" name="nombre" value={nuevoUsuario.nombre} onChange={handleChange} required />
 
-              <div className="mt-3">
-                <button 
-                  type="button" 
-                  className="btn btn-secondary" 
-                  data-bs-dismiss="modal" 
-                >
-                  CERRAR
-                </button>
-                {/* Quitamos el data-bs-dismiss="modal" aquí */}
-                <button 
-                  type="submit" 
-                  className="btn btn-primary ms-2"
-                >
-                  INSERTAR
-                </button>
-              </div>
-            </form>
+                <label className="form-label">TELEFONO</label>
+                <input className="form-control" type="text" name="telefono" value={nuevoUsuario.telefono} onChange={handleChange} required />
+
+                <label className="form-label">CORREO</label>
+                <input className="form-control" type="text" name="correo" value={nuevoUsuario.correo} onChange={handleChange} required />
+
+                <label className="form-label">CLAVE</label>
+                <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
+
+                <div className="mt-3">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">INSERTAR</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
 
       {/* MODAL EDITAR*/}
       <div className="modal fade" id="modalEditar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
@@ -317,22 +263,22 @@ const handleChangeEditar = (e) => {
                 <input className="form-control" type="text" name="id" value={editarUsuario.id} disabled />
 
                 <label className="form-label">NOMBRE</label>
-                <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar}  />
+                <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar} required />
 
                 <label className="form-label">telefono</label>
-                <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar}  />
+                <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar} required />
 
                 <label className="form-label">CORREO</label>
-                <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar}  />
+                <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} required />
 
                 <label className="form-label">CLAVE</label>
-                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar}  />
+                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} required />
 
 
 
                 <div className="mt-3">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                  <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" >EDITAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">EDITAR</button>
                 </div>
               </form>
             </div>
