@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:3000";
 
-export const getUsuarios = async () => {
-  const response = await fetch(`${API_URL}/usuarios`);
+export const getUsuarios = async (limit, offset) => {
+  const response = await fetch(`${API_URL}/usuarios/${limit}/${offset}`);
   return response.json();
 };
 
