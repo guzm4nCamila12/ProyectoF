@@ -10,7 +10,7 @@ import { useState, useEffect } from "react"; // Importación de hooks de React
 import { insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/Sensores/ApiSensores";
 import Swal from 'sweetalert2'
 import { acctionSucessful } from "../../../components/alertSuccesful";
-
+import BotonAtras from "../../../components/BotonAtras";
 function activarSensores() {
   // Estado para almacenar la lista de sensores
   const [sensores, setSensores] = useState([]);
@@ -169,6 +169,7 @@ function activarSensores() {
   return (
     <div className="container mt-4">
       <h1 className="text-center">{fincas.nombre}</h1>
+      <BotonAtras /> 
       <h2>Id de finca: {id}</h2>
       <p>Administrador</p>
       {/*Boton para que el administrador pueda agregar un sensor */}

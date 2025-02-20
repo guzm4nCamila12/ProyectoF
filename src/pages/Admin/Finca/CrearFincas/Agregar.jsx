@@ -5,7 +5,7 @@ import { insertarFinca } from "../../../../services/Fincas/ApiFincas";//Importam
 import { acctionSucessful } from "../../../../components/alertSuccesful";//Importamos el mensaje de registro de finca exitoso
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useNavigate, useParams } from "react-router"
-
+import BotonAtras from "../../../../components/BotonAtras";
 const Agregar = () => {
   const { id } = useParams();
   const [nombre, setNombre] = useState("")
@@ -37,7 +37,7 @@ const Agregar = () => {
   return (
     <div className={styles.container}> 
       <h3 className={styles.title}>AGREGAR FINCA</h3> 
-      
+      <BotonAtras /> 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label className={styles.label}>Ingrese su nombre:</label>

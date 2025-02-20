@@ -2,6 +2,7 @@ import React, { useState } from "react";  // Importación de React y useState pa
 import styles from "./login.module.css";  
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/Usuarios/ApiUsuarios";
+import Swal from "sweetalert2";
 
 const Login = () => {
   // Estado para almacenar el valor del correo electrónico y la contraseña
@@ -9,7 +10,6 @@ const Login = () => {
   const [clave, setClave] = useState("");  // Estado para la contraseña
   const [usuario, setUsuario] = useState(null);  // Estado para almacenar el usuario
   const navigate = useNavigate();
-  
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +37,17 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
+        Swal.fire({
+          title: "Error",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        }) // Almacena el mensaje de error en el estado error para mostrarlo al usuario
         // Manejo de errores si la API falla
       });
   };
+
+  
 
   return (
     <div className={styles.container}> 

@@ -11,7 +11,7 @@ import { Link } from "react-router";
 import { actualizarSensor } from "../../../services/Sensores/ApiSensores";
 import Swal from 'sweetalert2'
 import { insertarSensor } from "../../../services/Sensores/ApiSensores";
-
+import BotonAtras from "../../../components/BotonAtras";
 import withReactContent from 'sweetalert2-react-content'
 
 //hacer todo el proceso de envio de datos en el modal y solo llamarlo en el handlerSwitch
@@ -213,7 +213,7 @@ function SensoresAdmin() {
   return (
 
     <div className="container mt-4">
-
+      <BotonAtras /> 
       <p>OBSERVANDO A:</p>
       <h1 className="text-center">{fincas.nombre}</h1>
       <h2>Id de finca: {id}</h2>
