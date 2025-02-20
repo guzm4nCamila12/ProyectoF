@@ -3,7 +3,7 @@ import styles from "./login.module.css";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/Usuarios/ApiUsuarios";
 import Swal from "sweetalert2";
-
+import { acctionSucessful } from "../../components/alertSuccesful";
 const Login = () => {
   // Estado para almacenar el valor del correo electrónico y la contraseña
   const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
@@ -22,7 +22,10 @@ const Login = () => {
     login(inicioUsuario)
       .then((data) => {
         setUsuario(data);  // Actualiza el estado con los datos del usuario
-        
+        acctionSucessful.fire({
+          icon: "success",
+          title: `Bienvenido ${data.nombre}`
+        });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
           console.log(data.id);
@@ -34,6 +37,7 @@ const Login = () => {
           console.log("Alterno");
           navigate(`/sensores-alterno/${data.id_finca}`);
         }
+        
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
