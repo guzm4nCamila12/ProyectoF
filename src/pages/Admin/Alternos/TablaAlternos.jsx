@@ -9,7 +9,7 @@ import {  Link } from 'react-router-dom';
 //Importa los metodos de services/apiUsuarios
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
-
+import BotonAtras from "../../../components/BotonAtras";
   
 const Inicio = () => {
     const { id } = useParams();
@@ -163,7 +163,7 @@ const handleChangeEditar = (e) => {
   return (
     <div className="container mt-4">
       <h1 className="text-center">ALTERNOS REGISTRADOS</h1>
-
+    <BotonAtras /> 
       <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
           <tr>

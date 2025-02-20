@@ -3,16 +3,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
+
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
-
+import { Modal } from "bootstrap";
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]); // Todos los usuarios
   const [usuariosFiltrados, setUsuariosFiltrados] = useState([]); // Usuarios filtrados
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+
   const [paginaActual, setPaginaActual] = useState(1); // Página actual
   const [totalUsuarios, setTotalUsuarios] = useState(0); // Total de usuarios (para mostrar el número total de páginas)
   const usuariosPorPagina = 50; // Cuántos usuarios por página
@@ -20,7 +23,12 @@ const Inicio = () => {
   const offset = (paginaActual - 1) * usuariosPorPagina;
 
 
+  const navigate = useNavigate();
 
+  const irAtras = () => {
+    navigate()
+
+  }
   // DATOS DE PRUEBA
   useEffect(() => {
 
@@ -31,7 +39,6 @@ const Inicio = () => {
       })
       .catch(error => console.error('Error: ', error));
   }, [paginaActual]);
-
 
 
 
@@ -51,6 +58,7 @@ const Inicio = () => {
     });
     setUsuariosFiltrados(usuariosFiltrados);
   }, [filtro, usuarios]);
+
 
 
 
@@ -86,12 +94,16 @@ const Inicio = () => {
         });
 
       }
+      const modalElement = document.getElementById("modalInsertar");
+      const modal = new window.bootstrap.Modal(modalElement);  // Accedemos al Modal de Bootstrap
+      modal.hide(); 
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
 
 
   };
+
   const insertarUsuariosMasivos = async (cantidad) => {
     // Genera los 1000 usuarios de prueba
     const usuariosGenerados = Array.from({ length: cantidad }, (_, index) => ({
@@ -117,6 +129,7 @@ const Inicio = () => {
 
   // // Llamada para insertar 1000 usuarios
   // insertarUsuariosMasivos(200);
+
 
 
   // EDITAR USUARIO
@@ -219,6 +232,7 @@ const Inicio = () => {
     }
   }
 
+
   const totalPaginas = Math.ceil(totalUsuarios / usuariosPorPagina);
 
   const handleCambioPagina = (nuevaPagina) => {
@@ -277,6 +291,7 @@ const Inicio = () => {
                     <i className="bi bi-pencil-square"></i>
                   </button>
                 </td>
+
                 <td>
                   <button
                     className="btn btn-danger btn-sm m-1"
@@ -286,6 +301,7 @@ const Inicio = () => {
                   </button>
                 </td>
                 <td>{obtenerRol(usuario.id_rol, usuario.id)}</td>
+
               </tr>
             ))
           ) : (
@@ -343,8 +359,19 @@ const Inicio = () => {
                 <label className="form-label">CLAVE</label>
                 <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
 
-                <label className="form-label">ID ROL</label>
-                <input className="form-control" type="text" name="id_rol" value={nuevoUsuario.id_rol} onChange={handleChange} required />
+                <label className="form-label">ROL</label>
+                <select
+                  className="form-control"
+                  name="id_rol"
+                  
+                  value={nuevoUsuario.id_rol}
+                  onChange={handleChange}
+                  required
+                > 
+                <option value="">----</option>
+                  <option value="2">Administrador</option>
+                  <option value="1">Super Admin</option>
+                </select>
 
 
                 <div className="mt-3">

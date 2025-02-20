@@ -4,7 +4,7 @@ import Mapa from "../../../../components/Mapa";
 import { actualizarFinca, getFincasByIdFincas } from "../../../../services/Fincas/ApiFincas";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
-
+import BotonAtras from "../../../../components/BotonAtras";
 export default function editar() {
   const { id } = useParams();
   const [nombreFinca, setNombreFinca] = useState("");
@@ -66,8 +66,9 @@ export default function editar() {
 
   return (
     <div className={styles.container}>
+      <BotonAtras />
       <h3 className={styles.title}>EDITAR FINCA {fincas.nombre}</h3>
-
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label className={styles.label}>Ingrese su nuevo nombre:</label>
@@ -93,7 +94,9 @@ export default function editar() {
         </div>
 
         <div>
-          <p>Ubicación Actual: {ubicacion ? `${ubicacion.lat}, ${ubicacion.lng}` : "Cargando..."}</p>
+
+          <p>Ubicacion Actual: {ubicacion.lat} <br /> {ubicacion.lng}</p> {/* Muestra la ubicación actual */}
+
         </div>
 
         <button type="submit" className={styles.button}>

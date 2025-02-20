@@ -5,7 +5,9 @@ import Mapa from "../../../../components/Mapa";
 import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useNavigate, useParams } from "react-router";
+
+import { useNavigate, useParams } from "react-router"
+import BotonAtras from "../../../../components/BotonAtras";
 
 const Agregar = () => {
   const { id } = useParams();
@@ -48,8 +50,11 @@ const Agregar = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>AGREGAR FINCA</h3>
+
+    <div className={styles.container}> 
+    <BotonAtras /> 
+      <h3 className={styles.title}>AGREGAR FINCA</h3> 
+      
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
