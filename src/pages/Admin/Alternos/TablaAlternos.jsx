@@ -10,7 +10,6 @@ import {  Link } from 'react-router-dom';
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioByIdRol } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 
-import BotonAtras from "../../../components/BotonAtras";
   
 
 const Inicio = () => {
@@ -32,79 +31,82 @@ const Inicio = () => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
-  const handleChangeEditar = (e) => {
-    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
-  };
-
-  const validarCampos = (usuario) => {
-    return usuario.nombre && usuario.telefono && usuario.correo && usuario.clave;
-  };
-
+  // Funcion insertar usuario
+  //Se  Ejecuta cuando el formulario para insertar e enviado 
   const handleInsertar = async (e) => {
-    e.preventDefault();
-    
-    // Validar que los campos no estén vacíos
-    if (!validarCampos(nuevoUsuario)) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Por favor, llena todos los campos antes de enviar.',
-      });
-      return;
-    }
 
-    const nuevo = {
-      nombre: nuevoUsuario.nombre,
-      telefono: nuevoUsuario.telefono,
-      correo: nuevoUsuario.correo,
-      clave: nuevoUsuario.clave,
-      id_rol: Number(3),
-      id_finca: Number(id),
+    e.preventDefault();//Evita la recarga de la pagina
+    const nuevo = { 
+        nombre: nuevoUsuario.nombre, 
+        telefono: nuevoUsuario.telefono, 
+        correo: nuevoUsuario.correo, 
+        clave: nuevoUsuario.clave, 
+        id_rol: Number(3),
+        id_finca: Number(id)
     };
-
+    //console.log(nuevo)
     try {
-      const data = await insertarUsuario(nuevo);
-      setUsuarios(usuarios ? [...usuarios, data] : [data]);
-      setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-      acctionSucessful.fire({
-        icon: "success",
-        title: "Usuario agregado correctamente"
-      });
+      //Llama a la funcion insertarUsuario importada de la API
+      const data = await insertarUsuario(
+        nuevo
+      );
+      if (data ) {
+        if(usuarios=== null){
+          setUsuarios([data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+          
+        }else{
+          setUsuarios([...usuarios, data]);
+          setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+        }
 
-      // Cerrar el modal manualmente
-      const modalElement = document.getElementById('modalInsertar');
-      const modal = new bootstrap.Modal(modalElement);
-      modal.hide(); // Cierra el modal
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Usuario agregado correctamente"
+        });
+        
+
+      }
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
-  };
+  
 
+};
+
+
+  //Funcion editar usuario
+  //Se ejecuta cuando el formulario de edicion es enviado
   const handleEditar = async (e) => {
     e.preventDefault();
-
-    if (!validarCampos(editarUsuario)) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Por favor, llena todos los campos antes de editar.',
-      });
-      return;
-    }
-
-    try {
-      await actualizarUsuario(editarUsuario.id, editarUsuario);
+    try{
+       //Llama a la funcion actualizarUsuario importada de la API
+      actualizarUsuario(editarUsuario.id,editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
-
       acctionSucessful.fire({
         icon: "success",
         title: "Usuario editado correctamente"
       });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
+    }catch(error){
+      console.error(error)
+    }
+
+
+
+};
+
+//Manejo de cambios en el formulario de Edicion
+const handleChangeEditar = (e) => {
+    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
+
+};
+
+
+
+
+
+  //CARGAR DATOS EN MODAL DE EDICION
   const cargarDatosEdicion = (usuario) => {
     setEditarUsuario(usuario);
   };
@@ -138,8 +140,6 @@ const Inicio = () => {
   return (
     <div className="container mt-4">
       <h1 className="text-center">ALTERNOS REGISTRADOS</h1>
-
-    <BotonAtras /> 
 
       <table className="table table-bordered mt-3">
         <thead className="bg-dark text-light text-center">
@@ -190,7 +190,7 @@ const Inicio = () => {
 
       <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInsertar">INSERTAR</button>
 
-      {/* MODAL INSERTAR USUARIO */}
+      {/* MODAL INSERTAR USURIO*/}
       <div className="modal fade" id="modalInsertar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -201,54 +201,20 @@ const Inicio = () => {
             <div className="modal-body">
               <form onSubmit={handleInsertar}>
                 <label className="form-label">NOMBRE</label>
-                <input 
-                  className="form-control" 
-                  type="text" 
-                  name="nombre" 
-                  value={nuevoUsuario.nombre} 
-                  onChange={handleChange} 
-                />
+                <input className="form-control" type="text" name="nombre" value={nuevoUsuario.nombre} onChange={handleChange} required />
+
                 <label className="form-label">TELEFONO</label>
-                <input 
-                  className="form-control" 
-                  type="text" 
-                  name="telefono" 
-                  value={nuevoUsuario.telefono} 
-                  onChange={handleChange} 
-                />
+                <input className="form-control" type="text" name="telefono" value={nuevoUsuario.telefono} onChange={handleChange} required />
+
                 <label className="form-label">CORREO</label>
-                <input 
-                  className="form-control" 
-                  type="text" 
-                  name="correo" 
-                  value={nuevoUsuario.correo} 
-                  onChange={handleChange} 
-                />
+                <input className="form-control" type="text" name="correo" value={nuevoUsuario.correo} onChange={handleChange} required />
+
                 <label className="form-label">CLAVE</label>
-                <input 
-                  className="form-control" 
-                  type="text" 
-                  name="clave" 
-                  value={nuevoUsuario.clave} 
-                  onChange={handleChange} 
-                />
+                <input className="form-control" type="text" name="clave" value={nuevoUsuario.clave} onChange={handleChange} required />
+
                 <div className="mt-3">
-                  <button 
-                    type="button" 
-                    className="btn btn-secondary" 
-                    data-bs-dismiss="modal" 
-                  
-                  >
-                    CERRAR
-                  </button>
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary ms-2"
-                    data-bs-dismiss="modal" 
-                    disabled={!validarCampos(nuevoUsuario)} // Deshabilitar si los campos están vacíos
-                  >
-                    INSERTAR
-                  </button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">INSERTAR</button>
                 </div>
               </form>
             </div>
@@ -256,7 +222,7 @@ const Inicio = () => {
         </div>
       </div>
 
-      {/* MODAL EDITAR */}
+      {/* MODAL EDITAR*/}
       <div className="modal fade" id="modalEditar" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -269,16 +235,22 @@ const Inicio = () => {
                 <label className="form-label">ID</label>
                 <input className="form-control" type="text" name="id" value={editarUsuario.id} disabled />
                 <label className="form-label">NOMBRE</label>
-                <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar} />
-                <label className="form-label">TELEFONO</label>
-                <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar} />
+                <input className="form-control" type="text" name="nombre" value={editarUsuario.nombre} onChange={handleChangeEditar} required />
+
+                <label className="form-label">telefono</label>
+                <input className="form-control" type="text" name="telefono" value={editarUsuario.telefono} onChange={handleChangeEditar} required />
+
                 <label className="form-label">CORREO</label>
-                <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} />
+                <input className="form-control" type="text" name="correo" value={editarUsuario.correo} onChange={handleChangeEditar} required />
+
                 <label className="form-label">CLAVE</label>
-                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} />
+                <input className="form-control" type="text" name="clave" value={editarUsuario.clave} onChange={handleChangeEditar} required />
+
+
+
                 <div className="mt-3">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" >CERRAR</button>
-                  <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" disabled={!validarCampos(editarUsuario)}>EDITAR</button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                  <button type="submit" className="btn btn-primary ms-2" data-bs-dismiss="modal">EDITAR</button>
                 </div>
               </form>
             </div>

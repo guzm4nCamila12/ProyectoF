@@ -34,8 +34,7 @@ const Inicio = () => {
 
     getUsuarios(usuariosPorPagina, offset)
       .then(data => {
-        setUsuarios(data.usuarios);
-        setTotalUsuarios(data.totalUsuarios);
+        setUsuarios(data);
       })
       .catch(error => console.error('Error: ', error));
   }, [paginaActual]);

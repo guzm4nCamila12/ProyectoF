@@ -82,11 +82,8 @@ export default function editar() {
 
     <div>
       <div className="d-flex text-start">
-        <button className="btn btn-success me-auto" onClick={irAtras}><i class="bi bi-arrow-left"></i></button>
+        <button className="btn btn-success me-auto" onClick={irAtras}><i className="bi bi-arrow-left"></i></button>
       </div>
-      <div className={styles.container}>
-        <h3 className={styles.title}>EDITAR FINCA : {fincas.nombre}</h3>
-
     <div className={styles.container}>
 
       <BotonAtras />
@@ -127,6 +124,5 @@ export default function editar() {
         </form>
       </div>
       </div>
-    </div>
   );
 }
