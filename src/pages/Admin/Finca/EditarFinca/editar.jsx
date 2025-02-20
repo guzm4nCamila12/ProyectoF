@@ -50,8 +50,9 @@ export default function editar() {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>EDITAR FINCA {fincas.nombre}</h3>
       <BotonAtras />
+      <h3 className={styles.title}>EDITAR FINCA {fincas.nombre}</h3>
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label className={styles.label}>Ingrese su nuevo nombre:</label>

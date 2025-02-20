@@ -36,8 +36,9 @@ const Agregar = () => {
 
   return (
     <div className={styles.container}> 
+    <BotonAtras /> 
       <h3 className={styles.title}>AGREGAR FINCA</h3> 
-      <BotonAtras /> 
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label className={styles.label}>Ingrese su nombre:</label>
