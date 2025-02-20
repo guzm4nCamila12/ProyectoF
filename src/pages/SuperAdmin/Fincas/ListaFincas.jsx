@@ -121,13 +121,7 @@ export default function ListaFincas() {
             )}
           </tbody>
         </table>
-        
-       
       </div>
-
-
-
-      
     </div>
   );
 }

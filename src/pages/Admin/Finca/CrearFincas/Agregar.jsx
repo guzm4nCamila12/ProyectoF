@@ -39,7 +39,7 @@ const Agregar = () => {
 
     acctionSucessful.fire({
       icon: "success",
-      title: "Finca Insertada Correctamente",
+      title: `Finca ${nuevaFinca.nombre} insertda Correctamente`,
     });
 
     // Si la inserción fue exitosa, proceder a la navegación
@@ -47,41 +47,47 @@ const Agregar = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>AGREGAR FINCA</h3>
+    <div>
+      <div className="d-flex text-start">
+      <button className="btn btn-success  me-auto" onClick={irAtras}><i class="bi bi-arrow-left"></i></button>
+      </div>
+        <div className={styles.container}>
+        <h3 className={styles.title}>AGREGAR FINCA</h3>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div>
+            <label className={styles.label}>Ingrese su nombre:</label>
+            <input
+              type="text"
+              name="nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              className={styles.input}
+              placeholder="Nombre"
+              autoComplete="off"
+            />
+          </div>
+
+          <div>
+            <h1>
+              <i className="bi bi-geo-alt"></i>
+            </h1>
+            <Mapa setUbicacion={setUbicacion} />
+          </div>
+
+          <button type="submit" className={styles.button}>
+            AGREGAR
+          </button>
+        </form>
+
         <div>
-          <label className={styles.label}>Ingrese su nombre:</label>
-          <input
-            type="text"
-            name="nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            className={styles.input}
-            placeholder="Nombre"
-            autoComplete="off"
-          />
+          <p>
+            Ubicación Actual:{ubicacion.lat} <br/> {ubicacion.lng}
+          </p>
         </div>
-
-        <div>
-          <h1>
-            <i className="bi bi-geo-alt"></i>
-          </h1>
-          <Mapa setUbicacion={setUbicacion} />
-        </div>
-
-        <button type="submit" className={styles.button}>
-          AGREGAR
-        </button>
-      </form>
-
-      <div>
-        <p>
-          Ubicación Actual:{ubicacion.lat} <br/> {ubicacion.lng}
-        </p>
       </div>
     </div>
+    
   );
 };
 
