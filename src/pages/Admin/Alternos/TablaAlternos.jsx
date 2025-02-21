@@ -62,7 +62,7 @@ const Inicio = () => {
 
         acctionSucessful.fire({
           icon: "success",
-          title: "Usuario agregado correctamente"
+          title: `Alterno ${nuevoUsuario.nombre} agregado correctamente`
         });
         
 

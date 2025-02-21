@@ -24,24 +24,27 @@ function App() {
     <Router>
       <Routes>
         
+        {/* juan */}
         <Route path="/" element={<Login />} />
+
         <Route path="/agregar-sensor/:idUs/:idFi" element={<AgregarSensor/>}/>
         <Route path="/agregar-finca/:id" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
         
+        {/* jhoan */}
         <Route path="/inicio-SuperAdmin/fincas-Admin/:id" element={<FincasAdmin/>}/>
         <Route path="/inicio-SuperAdmin/sensores-usuario/:id/:idUser" element={<SensoresAdmin/>}/>
-
         <Route path="/editar-finca/:id" element={<EditarFinca/>}/>
 
+        {/* camila */}
         <Route path="/sensores-SuperAdmin/:id/:idUser" element={<ActivarSensores/>}/>
          <Route path='/datos-sensores' element={<VerSensores/>}/>
-
         <Route path="/sensores-admin" element={<ActivarSensores/>}/>
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
+        {/* john */}
         <Route path="/lista-fincas/:id" element={<ListaFincas />} />
-        <Route path="/alternos/:id" element={<TablaAlternos/>}/>
+        <Route path="/alternos/:id" element={<TablaAlternos/>}/>      
         <Route path="/sensores-alterno/:id" element={<Sensores/>}/>
 
 
