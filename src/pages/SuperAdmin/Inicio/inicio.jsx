@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "bootstrap-icons/font/bootstrap-icons.css";
+
 import Swal from 'sweetalert2';
 
 import { Link, useNavigate } from 'react-router-dom';
 
 import { getUsuarios, insertarUsuario, actualizarUsuario, eliminarUsuario } from "../../../services/Usuarios/ApiUsuarios";
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import { Modal } from "bootstrap";
+
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]); // Todos los usuarios

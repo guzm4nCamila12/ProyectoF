@@ -1,8 +1,5 @@
 import React from "react"; // Importación de React
 import { useParams, Link } from "react-router";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import { getSensoresById } from "../../../services/Sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../services/Fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/Usuarios/ApiUsuarios";
@@ -125,7 +122,7 @@ useEffect(() => {
           )}
         </tbody>
       </table>
-
+      ••••
     </div>
   );
 }

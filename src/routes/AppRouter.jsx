@@ -25,7 +25,7 @@ function App() {
       <Routes>
         
         <Route path="/" element={<Login />} />
-        <Route path="/agregar-sensor/:idUs/:idFi" element={<AgregarSensor/>}/>
+        <Route path="/agregar-sensor" element={<AgregarSensor/>}/>
         <Route path="/agregar-finca/:id" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
         

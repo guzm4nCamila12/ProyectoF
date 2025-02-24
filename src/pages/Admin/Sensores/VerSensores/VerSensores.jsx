@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "bootstrap-icons/font/bootstrap-icons.css";
+
 import GraficoSensor from '../GraficoSensor/GraficoSensor';
 
 export default function VerSensores() {
@@ -53,7 +51,7 @@ export default function VerSensores() {
           </tbody>
         </table>
         
-        <GraficoSensor />
+        
       </div>
     </div>
   );
